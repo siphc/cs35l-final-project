@@ -1,35 +1,117 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./index.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+  };
+
+  const validate = () => {
+    const e = {};
+    if (!form.name.trim()) e.name = "Name is required.";
+    if (!form.email.trim()) e.email = "Email is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))  // might have to change up regex not 100% correct
+      e.email = "Enter a valid email.";
+    if (!form.password) e.password = "Password is required.";
+    if (!form.confirmPassword) e.confirmPassword = "Please confirm password.";
+    if (form.password && form.confirmPassword && form.password !== form.confirmPassword)
+      e.confirmPassword = "Passwords do not match.";
+    return e;
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const v = validate();
+    setErrors(v);
+    if (Object.keys(v).length === 0) {
+      setSubmitted(true);
+      // TODO: send to db here
+      console.log("Registration data:", form);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div className="page">
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="page">
+      <form className="card form" onSubmit={onSubmit} noValidate>
+        <h1>Create your account</h1>
 
-export default App
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          value={form.name}
+          onChange={onChange}
+          required
+          aria-invalid={!!errors.name}
+          aria-describedby="name-error"
+        />
+        {errors.name && <div id="name-error" className="error">{errors.name}</div>}
+
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value={form.email}
+          onChange={onChange}
+          required
+          aria-invalid={!!errors.email}
+          aria-describedby="email-error"
+        />
+        {errors.email && <div id="email-error" className="error">{errors.email}</div>}
+
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          value={form.password}
+          onChange={onChange}
+          required
+          aria-invalid={!!errors.password}
+          aria-describedby="password-error"
+          autoComplete="new-password"
+        />
+        {errors.password && <div id="password-error" className="error">{errors.password}</div>}
+
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          value={form.confirmPassword}
+          onChange={onChange}
+          required
+          aria-invalid={!!errors.confirmPassword}
+          aria-describedby="confirmPassword-error"
+          autoComplete="new-password"
+        />
+        {errors.confirmPassword && (
+          <div id="confirmPassword-error" className="error">{errors.confirmPassword}</div>
+        )}
+
+        <button type="submit">Register</button>
+
+        
+      </form>
+    </div>
+  );
+}
