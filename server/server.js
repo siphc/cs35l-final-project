@@ -9,7 +9,7 @@ const app = express();
 connectDB();
 
 app.use(cors());
-app.listen(express.json);
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 if (process.env.NODE_ENV === 'development') {
