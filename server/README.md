@@ -12,7 +12,7 @@ A Node.js/Express REST API for user authentication with MongoDB.
 2. **Configure environment variables:**
    - Copy `.env.example` to `.env`
    - Update `MONGODB_URI` with your MongoDB connection string
-   - Adjust `PORT` if needed (default: 5000)
+   - Adjust `PORT` if needed (default: 5002)
 
 3. **Start the server:**
    ```bash
@@ -27,7 +27,7 @@ A Node.js/Express REST API for user authentication with MongoDB.
 
 ### Base URL
 ```
-http://localhost:5000
+http://localhost:5002
 ```
 
 ### 1. Register User
@@ -168,7 +168,7 @@ All error responses follow this format:
 // Register a new user
 async function registerUser(email, password) {
   try {
-    const response = await fetch('http://localhost:5000/api/auth/register', {
+    const response = await fetch('http://localhost:5002/api/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -200,7 +200,7 @@ async function registerUser(email, password) {
 ```javascript
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000/api/auth';
+const API_BASE_URL = 'http://localhost:5002/api/auth';
 
 // Register a new user
 async function registerUser(email, password) {
@@ -235,12 +235,12 @@ async function registerUser(email, password) {
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `MONGODB_URI` | MongoDB connection string | Required |
-| `PORT` | Server port number | 5000 |
+| `PORT` | Server port number | 5002 |
 | `NODE_ENV` | Environment mode (development/production) | development |
 
 ## Development
 
-- Server runs on `http://localhost:5000` by default
+- Server runs on `http://localhost:5002` by default
 - In development mode, all requests are logged to the console
 - Error messages include stack traces in development mode
 
