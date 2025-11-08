@@ -12,6 +12,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Under development mode, print the request type and path to stdout.
+// e.g. POST /api/auth/register
 if (process.env.NODE_ENV === 'development') {
     app.use((req,res,next) => {
         console.log(`${req.method} ${req.path}`);
