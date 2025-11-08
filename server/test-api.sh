@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "======================================"
 echo "🧪 Testing Backend API"
