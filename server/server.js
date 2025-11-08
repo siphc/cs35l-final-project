@@ -21,6 +21,7 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
+// All requests to /api/auth/* is handled by the authRoutes router (i.e. routes/auth.js).
 app.use('/api/auth', authRoutes);
 
 app.get('/', (req,res) => {
