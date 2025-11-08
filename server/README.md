@@ -59,30 +59,6 @@ Register a new user account.
 
 **Error Responses:**
 
-- **400 Bad Request** - Missing or invalid fields:
-  ```json
-  {
-    "success": false,
-    "message": "Email and password are required"
-  }
-  ```
-
-- **400 Bad Request** - Invalid email format:
-  ```json
-  {
-    "success": false,
-    "message": "Please provide a valid email address"
-  }
-  ```
-
-- **400 Bad Request** - Password too short:
-  ```json
-  {
-    "success": false,
-    "message": "Password must be at least 6 characters long"
-  }
-  ```
-
 - **409 Conflict** - User already exists:
   ```json
   {
