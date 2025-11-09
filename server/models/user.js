@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
     index: true,
-    match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email'],
   },
   password: {
     type: String,
@@ -42,7 +41,7 @@ userSchema.pre('save', function(next) {
   next();
 });
 
-// Method to compare passwords (for future login implementation)
+// Method to compare passwords 
 userSchema.methods.comparePassword = function(candidatePassword) {
   const hashedCandidate = crypto
     .createHash('sha256')

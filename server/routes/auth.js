@@ -11,31 +11,6 @@ router.post('/register', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validation
-    if (!email || !password) {
-      return res.status(400).json({
-        success: false,
-        message: 'Email and password are required',
-      });
-    }
-
-    // Validate email format
-    const emailRegex = /^\S+@\S+\.\S+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide a valid email address',
-      });
-    }
-
-    // Validate password length
-    if (password.length < 6) {
-      return res.status(400).json({
-        success: false,
-        message: 'Password must be at least 6 characters long',
-      });
-    }
-
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -90,6 +65,95 @@ router.post('/register', async (req, res) => {
     });
   }
 });
+
+/**
+ * @route   POST /api/auth/login
+ * @desc    Login a user
+ * @access  Public
+ */
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    const user = await User.findOne({ email }).select('+password');
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid email or password',
+      });
+    }
+
+    const isPasswordValid = await user.comparePassword(password);
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid email or password',
+      });
+    }
+
+    const Session = require('../models/session');
+    const session = await Session.createSession(user._id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Login successful',
+      data: {
+        sessionId: session.sessionId,
+        user: {
+          id: user._id,
+          email: user.email,
+        },
+      },
+    });
+   } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+      });
+    };
+});
+
+/**
+ * @route   POST /api/auth/logout
+ * @desc    Logout a user
+ * @access  Public
+ */
+router.post('/verify', async (req, res) => {
+  try {
+    const { sessionId } = req.body;
+    if (!sesionId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Session ID is required',
+      })
+    }
+
+    const Session = require('../models/session');
+    const delectedSession = await Session.findOneAndDelete({ sessionId });
+
+    if (!delectedSession) {
+      return res.status(404).json({
+        success: false,
+        message: 'Session not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Logout successful',
+    });
+  }
+  catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    });
+  }
+});
+
 
 /**
  * @route   GET /api/auth/health
