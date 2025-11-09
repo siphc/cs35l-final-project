@@ -34,7 +34,21 @@ app.get('/', (req,res) => {
                 method: 'POST',
                 path: '/api/auth/register',
                 description: 'Register a new user'
-            },
+            },login: {
+              method: 'POST',
+              path: '/api/auth/login',
+              description: 'Login user and create session'
+          },
+          logout: {
+              method: 'POST',
+              path: '/api/auth/logout',
+              description: 'Logout user by deleting session'
+          },
+          verify: {
+              method: 'GET',
+              path: '/api/auth/verify',
+              description: 'Verify session and get user info'
+          },
             health: {
                 method: 'GET',
                 path: '/api/auth/health',

@@ -154,6 +154,52 @@ router.post('/verify', async (req, res) => {
   }
 });
 
+/**
+ * @route   GET /api/auth/verify
+ * @desc    Verify session and return user info
+ * @access  Public
+ */
+router.get('/verify', async (req, res) => {
+  try {
+    const sessionId = req.headers['x-session-id'] || req.query.sessionId;
+
+    if (!sessionId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Session ID is required',
+      });
+    }
+
+    const Session = require('../models/session');
+    const session = await Session.findOne({ sessionId }).populate('userId', 'email');
+
+    if (!session || session.expiresAt < new Date()) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid or expired session',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        user: {
+          id: session.userId._id,
+          email: session.userId.email,
+        },
+        expiresAt: session.expiresAt,
+      },
+    });
+
+  } catch (error) {
+    console.error('Session verification error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    });
+  }
+});
+
 
 /**
  * @route   GET /api/auth/health
