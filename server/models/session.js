@@ -34,7 +34,7 @@ sessionSchema.statics.generateSessionId = function() {
 sessionSchema.statics.createSession = async function(userId, hoursUntilExpiry = 24) {
   const sessionId = this.generateSessionId();
   const expiresAt = new Date();
-  expiresAt.setDate(expiresAt.gethours() + hoursUntilExpiry);
+  expiresAt.setHours(expiresAt.gethours() + hoursUntilExpiry);
 
   const session = new this({
     sessionId,

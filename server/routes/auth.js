@@ -84,7 +84,7 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    const isPasswordValid = await user.comparePassword(password);
+    const isPasswordValid = user.comparePassword(password);
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
@@ -112,7 +112,7 @@ router.post('/login', async (req, res) => {
         success: false,
         message: 'Internal server error',
       });
-    };
+    }
 });
 
 /**
@@ -120,20 +120,20 @@ router.post('/login', async (req, res) => {
  * @desc    Logout a user
  * @access  Public
  */
-router.post('/verify', async (req, res) => {
+router.post('/logout', async (req, res) => {
   try {
     const { sessionId } = req.body;
-    if (!sesionId) {
+    if (!sessionId) {
       return res.status(400).json({
         success: false,
         message: 'Session ID is required',
-      })
+      });
     }
 
     const Session = require('../models/session');
-    const delectedSession = await Session.findOneAndDelete({ sessionId });
+    const deletedSession = await Session.findOneAndDelete({ sessionId });
 
-    if (!delectedSession) {
+    if (!deletedSession) {
       return res.status(404).json({
         success: false,
         message: 'Session not found',
