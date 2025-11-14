@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 
+const isValidEmail = (value) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+const isValidPassword = (value) =>
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(value);
+const passwordRulesText =
+  "Password must be at least 8 characters and include upper, lower, digit, and special character.";
+
 const API_BASE_URL = 'http://localhost:3001';
 
 function Register({ onSwitchToLogin }) {
@@ -10,6 +17,21 @@ function Register({ onSwitchToLogin }) {
     const handleSubmit = async (e) => {
         e.preventDefault(); 
         setMessage('Attempting to register user...');
+
+        if (!email || !password) {
+        setMessage("Please enter both an email and password.");
+        return;
+        }
+
+        if (!isValidEmail(email)) {
+           setMessage("Please enter a valid email address.");
+           return;
+        }
+
+        if (!isValidPassword(password)) {
+           setMessage(passwordRulesText);
+           return;
+        }
 
         try {
             const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
