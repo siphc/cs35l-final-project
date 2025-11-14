@@ -11,6 +11,11 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
         e.preventDefault(); 
         setMessage('Attempting to log in...'); 
 
+        if (!username || !password) {
+        setMessage("Please enter both your email and password.");
+        return;
+  }
+
         try {
             const response = await fetch(`${API_BASE_URL}/api/login`, {
                 method: 'POST',
