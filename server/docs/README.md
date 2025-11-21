@@ -17,7 +17,7 @@
    ```bash
    npm run dev    # Development mode
    npm start      # Production mode
-   npm test       # Testing mode
+   npm test [-- --detectOpenHandles]   # Testing mode
    ```
    If you received a MongoDB error (this most commonly happens in `npm test`, as the database is local), follow the instructions [on the MongoDB website](https://www.mongodb.com/docs/manual/administration/install-community) to start the `mongod` process.
 
