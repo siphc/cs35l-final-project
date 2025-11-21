@@ -7,7 +7,7 @@ const isValidPassword = (value) =>
 const passwordRulesText =
   "Password must be at least 8 characters and include upper, lower, digit, and special character.";
 
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'http://localhost:5002';
 
 function Register({ onSwitchToLogin }) {
     const [email, setEmail] = useState('');

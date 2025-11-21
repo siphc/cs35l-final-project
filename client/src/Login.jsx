@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'http://localhost:5002';
 
 function Login({ onLoginSuccess, onSwitchToRegister }) {
     const [email, setEmail] = useState('');
