@@ -36,6 +36,11 @@ describe('Authentication API', () => {
     await Session.deleteMany({});
   });
 
+  afterEach(async () => {
+    await User.deleteMany({});
+    await Session.deleteMany({});
+  });
+
   describe('POST /api/auth/register', () => {
     it('creates a user with valid credentials', async () => {
       const res = await request(app)
@@ -89,6 +94,50 @@ describe('Authentication API', () => {
         .post('/api/auth/login')
         .send({ email: 'nonexistent@example.com', password: 'password123' })
         .expect(401);
+    });
+  });
+
+  describe("POST /api/auth/logout", () => {
+    let sessionId;
+    beforeEach(async () => {
+      await request(app)
+        .post('/api/auth/register')
+        .send({ email: 'test@example.com', password: 'password123' });
+      await request(app)
+        .post('/api/auth/login')
+        .send({ email: 'test@example.com', password: 'password123' })
+        .then(res => {
+          sessionId = res.body.data.sessionId;
+        });
+    });
+
+    it('logs out a user with valid session ID', async () => {
+      const loginRes = await request(app)
+        .post('/api/auth/logout')
+        .send({ sessionId })
+        .expect(200);
+    });
+  });
+
+  describe("GET /api/auth/verify", () => {
+    let sessionId;
+    beforeEach(async () => {
+      await request(app)
+        .post('/api/auth/register')
+        .send({ email: 'test@example.com', password: 'password123' });
+      await request(app)
+        .post('/api/auth/login')
+        .send({ email: 'test@example.com', password: 'password123' })
+        .then(res => {
+          sessionId = res.body.data.sessionId;
+        });
+    });
+
+    it('verifies a valid session ID', async () => {
+      const loginRes = await request(app)
+        .get('/api/auth/verify')
+        .query({ sessionId })
+        .expect(200);
     });
   });
 });
