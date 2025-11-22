@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/auth', authRoutes);
 app.use('/api/class', classRoutes);
 
-app.get('/', (req, res) => {
+app.get('/api/auth/', (req, res) => {
   res.json({
     message: 'User Authentication API',
     version: '1.0.0',
@@ -34,27 +34,46 @@ app.get('/', (req, res) => {
     endpoints: {
       register: {
         method: 'POST',
-        path: '/api/auth/register',
+        path: 'register',
         description: 'Register a new user'
       }, login: {
         method: 'POST',
-        path: '/api/auth/login',
+        path: 'login',
         description: 'Login user and create session'
       },
       logout: {
         method: 'POST',
-        path: '/api/auth/logout',
+        path: 'logout',
         description: 'Logout user by deleting session'
       },
       verify: {
         method: 'GET',
-        path: '/api/auth/verify',
+        path: 'verify',
         description: 'Verify session and get user info'
       },
       health: {
         method: 'GET',
-        path: '/api/auth/health',
+        path: 'health',
         description: 'Check API health'
+      }
+    }
+  });
+});
+
+app.get('/api/class/', (req, res) => {
+  res.json({
+    message: 'Class API',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      create: {
+        method: 'POST',
+        path: 'create',
+        description: 'Create a new class'
+      }, join: {
+        method: 'POST',
+        path: 'join',
+        description: 'Join a class by code'
       }
     }
   });
