@@ -22,7 +22,7 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
 
             if (response.ok) {
                 setMessage(`Login successful! Welcome, ${data.data.user.email}.`);
-                localStorage.setItem('currentUser', JSON.stringify(data.user));
+                localStorage.setItem('currentUser', JSON.stringify(data.data.user));
                 onLoginSuccess(data.user);
             } else {
                 setMessage(`Login failed: ${data.message || 'Invalid credentials.'}`);
