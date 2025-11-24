@@ -1,0 +1,110 @@
+/* Messaging.css */
+
+.messaging-container {
+    display: flex;
+    height: calc(100vh - 80px); /* Full height minus header */
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+/* Left Side: Contact List */
+.contacts-list {
+    width: 300px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+}
+
+.contact-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.contact-item:hover {
+    background-color: #e9ecef;
+}
+
+.contact-item.active {
+    background-color: #e3f2fd; /* Light Blue */
+    border-left: 4px solid #007bff;
+}
+
+.contact-name {
+    font-weight: bold;
+    color: #333;
+}
+
+.contact-role {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Right Side: Chat Area */
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+    font-weight: bold;
+}
+
+.messages-display {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fff;
+}
+
+.message-bubble {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.message-received {
+    background-color: #f1f0f0;
+    color: #333;
+    align-self: flex-start;
+}
+
+.message-sent {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+    margin-left: auto; /* Pushes to right */
+}
+
+.chat-input-area {
+    padding: 15px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+}
+
+.send-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
