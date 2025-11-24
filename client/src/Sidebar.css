@@ -1,0 +1,58 @@
+/*To hold the styling*/
+.app-sidebar {
+    display: block;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100px; /* Width based on your original code */
+    background-color: #003366; /* UCLA Blue */
+    color: white;
+    padding-top: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.sidebar-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 15px;
+}
+
+.sidebar-nav-item {
+    display: block;
+    color: #BDBDBD; /* Lighter text for non-active links */
+    text-decoration: none;
+    padding: 15px 10px;
+    text-align: center;
+    transition: background-color 0.2s;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.sidebar-nav-item:hover {
+    background-color: #004080;
+}
+
+/* This handles the "Active" state (Yellow bar) */
+.sidebar-nav-item.active {
+    background-color: white;
+    color: #003366;
+    font-weight: bold;
+    border-left: 5px solid #FFCD00; /* UCLA Yellow */
+}
+
+.sidebar-icon {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.ucla-logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0 20px 0;
+    color: #FFCD00;
+}

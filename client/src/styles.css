@@ -1,0 +1,54 @@
+/* Global Reset and Font Setup */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Light background for the main content area */
+}
+
+/* The 'canvas' wrapper class. This is the crucial part that 
+    creates space for the fixed sidebar on the left (100px)
+*/
+.body-with-right-side-primary-nav-expanded {
+    padding-left: 100px; /* MUST match the width defined in the Web Component */
+}
+
+/* Main content area styling */
+#main-content-wrapper {
+    min-height: 100vh;
+    padding: 0 20px 20px 20px;
+}
+
+.page-header {
+    background-color: white;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.page-header h1 {
+    margin: 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.main-content-area {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Dashboard-specific styling for clarity */
+.dashboard-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.dashboard-card {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
