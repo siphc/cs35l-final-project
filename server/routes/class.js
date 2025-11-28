@@ -113,4 +113,37 @@ router.post('/join', authMiddleware, async (req, res) => {
     }
 });
 
+/**
+ * @route   GET /api/class/my-classes
+ * @desc    Get all classes for the authenticated user (created or joined)
+ * @access  Private
+ */
+router.get('/my-classes', authMiddleware, async (req, res) => {
+    try {
+        const classes = await Class.find({
+            $or: [
+                { creator: req.user._id },
+                { members: req.user._id }
+            ]
+        }).sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            data: classes.map(c => ({
+                id: c._id,
+                name: c.name,
+                description: c.description,
+                classCode: c.classCode,
+                role: c.creator.toString() === req.user._id.toString() ? 'Instructor' : 'Student'
+            })),
+        });
+    } catch (error) {
+        console.error('Get classes error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+        });
+    }
+});
+
 module.exports = router;
