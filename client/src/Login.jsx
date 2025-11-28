@@ -8,8 +8,13 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
     const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
-        setMessage('Attempting to log in...'); 
+        e.preventDefault();
+        setMessage('Attempting to log in...');
+
+        if (!email || !password) {
+            setMessage("Please enter both your email and password.");
+            return;
+        }
 
         try {
             const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
@@ -20,10 +25,12 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
 
             const data = await response.json();
 
-            if (response.ok) {
+            if (response.ok && data.success) {
                 setMessage(`Login successful! Welcome, ${data.data.user.email}.`);
+                // Store sessionId and user info
+                localStorage.setItem('sessionId', data.data.sessionId);
                 localStorage.setItem('currentUser', JSON.stringify(data.data.user));
-                onLoginSuccess(data.user);
+                onLoginSuccess(data.data.user);
             } else {
                 setMessage(`Login failed: ${data.message || 'Invalid credentials.'}`);
             }
@@ -39,8 +46,8 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
         <div className="login-container">
             <h2>User Login</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="email">email:</label>
-                <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <label htmlFor="email">Email:</label>
+                <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
 
                 <label htmlFor="password">Password:</label>
                 <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
@@ -51,7 +58,7 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
             {message && <p className="status-message">{message}</p>}
 
             <p>
-                Don't have an account? 
+                Don't have an account?
                 <a href="#" onClick={(e) => {e.preventDefault(); onSwitchToRegister();}}>
                     Register here
                 </a>

@@ -3,12 +3,12 @@ import Sidebar from './Sidebar';
 import './Calendar.css';
 import './styles.css';
 
-const Calendar = ({ onNavigate }) => {
+const Calendar = ({ onNavigate, onLogout }) => {
   return (
     <div className="body-with-right-side-primary-nav-expanded full-width-context-user_19897">
-      
+
       {/* Sidebar Navigation */}
-      <Sidebar page="calendar" onNavigate={onNavigate} />
+      <Sidebar page="calendar" onNavigate={onNavigate} onLogout={onLogout} />
 
       <div id="main-content-wrapper">
         <header className="page-header">

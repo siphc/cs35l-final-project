@@ -15,22 +15,22 @@ function Register({ onSwitchToLogin }) {
     const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         setMessage('Attempting to register user...');
 
         if (!email || !password) {
-        setMessage("Please enter both an email and password.");
-        return;
+            setMessage("Please enter both an email and password.");
+            return;
         }
 
         if (!isValidEmail(email)) {
-           setMessage("Please enter a valid email address.");
-           return;
+            setMessage("Please enter a valid email address.");
+            return;
         }
 
         if (!isValidPassword(password)) {
-           setMessage(passwordRulesText);
-           return;
+            setMessage(passwordRulesText);
+            return;
         }
 
         try {
@@ -42,12 +42,12 @@ function Register({ onSwitchToLogin }) {
 
             const data = await response.json();
 
-            if (response.ok) {
+            if (response.ok && data.success) {
                 setMessage(`Registration successful! Switching to login...`);
                 setEmail('');
                 setPassword('');
-                
-                setTimeout(() => { onSwitchToLogin(); }, 1500); 
+
+                setTimeout(() => { onSwitchToLogin(); }, 1500);
 
             } else {
                 setMessage(`Registration failed: ${data.message || 'Server error.'}`);
@@ -63,7 +63,7 @@ function Register({ onSwitchToLogin }) {
         <div className="register-container">
             <h2>Create Account</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="email">email:</label>
+                <label htmlFor="email">Email:</label>
                 <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
 
                 <label htmlFor="password">Password:</label>

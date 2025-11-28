@@ -4,24 +4,29 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4; /* Light background for the main content area */
+    color: #213547; /* Dark text color */
 }
 
-/* The 'canvas' wrapper class. This is the crucial part that 
+/* The 'canvas' wrapper class. This is the crucial part that
     creates space for the fixed sidebar on the left (100px)
 */
 .body-with-right-side-primary-nav-expanded {
     padding-left: 100px; /* MUST match the width defined in the Web Component */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Main content area styling */
 #main-content-wrapper {
     min-height: 100vh;
     padding: 0 20px 20px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .page-header {
     background-color: white;
-    padding: 15px 0;
+    padding: 15px 20px;
     margin-bottom: 20px;
     border-bottom: 1px solid #ddd;
 }
@@ -30,6 +35,7 @@ body {
     margin: 0;
     color: #333;
     font-size: 1.5rem;
+    text-align: left;
 }
 
 .main-content-area {
@@ -37,6 +43,13 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    color: #213547; /* Ensure dark text on white background */
+}
+
+.main-content-area h2,
+.main-content-area p,
+.main-content-area button {
+    color: inherit;
 }
 
 /* Dashboard-specific styling for clarity */
@@ -51,4 +64,71 @@ body {
     padding: 15px;
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 90%;
+    color: #213547; /* Ensure dark text */
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.modal-content p {
+    color: #213547;
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-content label {
+    font-weight: bold;
+    color: #555;
+    margin-top: 10px;
+}
+
+.modal-content input,
+.modal-content textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.modal-message {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    color: #333;
 }

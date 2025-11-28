@@ -1,6 +1,7 @@
 /*To hold the styling*/
 .app-sidebar {
-    display: block;
+    display: flex;
+    flex-direction: column;
     height: 100vh;
     position: fixed;
     top: 0;
@@ -55,4 +56,17 @@
     text-align: center;
     padding: 10px 0 20px 0;
     color: #FFCD00;
+}
+
+.sidebar-logout {
+    margin-top: auto;
+    padding-bottom: 20px;
+}
+
+.logout-button {
+    background-color: #8B0000; /* Dark red for logout */
+}
+
+.logout-button:hover {
+    background-color: #A52A2A; /* Lighter red on hover */
 }

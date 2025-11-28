@@ -3,7 +3,7 @@ import Sidebar from './Sidebar';
 import './Messaging.css';
 import './styles.css';
 
-const Messaging = ({ onNavigate }) => {
+const Messaging = ({ onNavigate, onLogout }) => {
   // Fake Contacts Data
   const contacts = [
     { id: 1, name: "Instructor T. H.", role: "CS 35L Professor" },
@@ -16,9 +16,9 @@ const Messaging = ({ onNavigate }) => {
 
   return (
     <div className="body-with-right-side-primary-nav-expanded full-width-context-user_19897">
-      
+
       {/* Sidebar Navigation */}
-      <Sidebar page="messaging" onNavigate={onNavigate} />
+      <Sidebar page="messaging" onNavigate={onNavigate} onLogout={onLogout} />
 
       <div id="main-content-wrapper">
         <header className="page-header">

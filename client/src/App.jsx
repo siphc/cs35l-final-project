@@ -9,13 +9,14 @@ import Calendar from './Calendar.jsx';
 import Register from './Register';
 
 function App() {
-  const [currentUser, setCurrentUser] = useState({ username: 'Test User' });
-  const [currentView, setCurrentView] = useState('dashboard');
+  const [currentUser, setCurrentUser] = useState(null);
+  const [currentView, setCurrentView] = useState('login');
 
   // 1. Check for stored user session on component mount (if they refresh the page)
   useEffect(() => {
     const storedUser = localStorage.getItem('currentUser');
-    if (storedUser===undefined || storedUser===null) {
+    const sessionId = localStorage.getItem('sessionId');
+    if (storedUser && sessionId) {
       setCurrentUser(JSON.parse(storedUser));
       setCurrentView('dashboard');
     }
@@ -26,8 +27,25 @@ function App() {
     setCurrentView('dashboard'); // Switch to dashboard on successful login
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('currentUser'); // Clear the stored session
+  const handleLogout = async () => {
+    const sessionId = localStorage.getItem('sessionId');
+
+    // Call logout API
+    if (sessionId) {
+      try {
+        await fetch('http://localhost:5002/api/auth/logout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId }),
+        });
+      } catch (error) {
+        console.error('Logout error:', error);
+      }
+    }
+
+    // Clear local storage
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('sessionId');
     setCurrentUser(null);
     setCurrentView('login'); // Return to login page
   };
@@ -52,13 +70,13 @@ function App() {
       // If viewing assignments, show the Assignment Page
       return <Assignment onBack={() => handleSwitchView('dashboard')} />;
     }else if (currentUser && currentView === 'account') {
-      return <Account onNavigate={handleSwitchView} />;
+      return <Account onNavigate={handleSwitchView} onLogout={handleLogout} />;
     }else if (currentView === 'register') {
       return <Register onSwitchToLogin={() => handleSwitchView('login')} />;
     }else if (currentUser && currentView === 'messaging') {
-      return <Messaging onNavigate={handleSwitchView} />;
+      return <Messaging onNavigate={handleSwitchView} onLogout={handleLogout} />;
     }else if (currentUser && currentView === 'calendar') {
-      return <Calendar onNavigate={handleSwitchView} />;
+      return <Calendar onNavigate={handleSwitchView} onLogout={handleLogout} />;
     }else {
       // Default view is 'login' (The missing part!)
       return (

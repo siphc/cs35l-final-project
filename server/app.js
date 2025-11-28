@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const classRoutes = require('./routes/class');
+const profileRoutes = require('./routes/profile');
 
 const app = express();
 
@@ -25,6 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 // All requests to /api/auth/* is handled by the authRoutes router (i.e. routes/auth.js).
 app.use('/api/auth', authRoutes);
 app.use('/api/class', classRoutes);
+app.use('/api/profile', profileRoutes);
 
 app.get('/api/auth/', (req, res) => {
   res.json({
