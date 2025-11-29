@@ -1,5 +1,5 @@
 import React from 'react';
-import './Sidebar.css'; 
+import './sidebar.css'; 
 
 // We accept "onNavigate"
 const Sidebar = ({ page, onNavigate }) => {

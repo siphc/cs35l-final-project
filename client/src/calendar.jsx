@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import AccountPanel from './AccountPanel';
-import './Calendar.css';
+import React from 'react';
+import Sidebar from './sidebar.jsx';
+import './calendar.css';
 import './styles.css';
 
 const Calendar = ({ user, onNavigate, onLogout }) => {

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import AccountPanel from './AccountPanel';
+import React, { useState, useEffect } from 'react';
+import Sidebar from './sidebar.jsx';
 import './styles.css';
 
 const Dashboard = ({ user, onViewAssignments, onNavigate, onLogout }) => {
