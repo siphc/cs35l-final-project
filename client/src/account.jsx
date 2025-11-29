@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from './sidebar.jsx';
 import './styles.css';
 
 const API_BASE_URL = 'http://localhost:3001';

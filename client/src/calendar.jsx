@@ -1,6 +1,6 @@
 import React from 'react';
-import Sidebar from './Sidebar';
-import './Calendar.css';
+import Sidebar from './sidebar.jsx';
+import './calendar.css';
 import './styles.css';
 
 const Calendar = ({ onNavigate, onLogout }) => {

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import './App.css'; 
-import Login from './Login'; 
-import Dashboard from './Dashboard';
-import Assignment from './Assignment.jsx';
-import Account from './Account';
-import Messaging from './Messaging.jsx';
-import Calendar from './Calendar.jsx';
-import Register from './Register';
+import './app.css'; 
+import Login from './login.jsx'; 
+import Dashboard from './dashboard.jsx';
+import Assignment from './assignment.jsx';
+import Account from './account.jsx';
+import Messaging from './messaging.jsx';
+import Calendar from './calendar.jsx';
+import Register from './register.jsx';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);

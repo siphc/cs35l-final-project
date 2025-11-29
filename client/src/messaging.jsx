@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import './Messaging.css';
+import Sidebar from './sidebar.jsx';
+import './messaging.css';
 import './styles.css';
 
 const Messaging = ({ onNavigate, onLogout }) => {

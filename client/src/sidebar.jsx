@@ -1,5 +1,5 @@
 import React from 'react';
-import './Sidebar.css'; 
+import './sidebar.css'; 
 
 // We accept "onNavigate" and "onLogout"
 const Sidebar = ({ page, onNavigate, onLogout }) => {

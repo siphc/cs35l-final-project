@@ -1,6 +1,6 @@
 import React from 'react';
-import Sidebar from './Sidebar';
-import './Assignment.css'; // Import the specific styles for this page
+import Sidebar from './sidebar.jsx';
+import './assignment.css'; // Import the specific styles for this page
 import './styles.css'; // Import global styles
 
 const Assignment = ({ onBack }) => {
