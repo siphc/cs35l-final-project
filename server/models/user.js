@@ -15,6 +15,12 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password is required'],
     select: false, // Don't return password in queries by default
   },
+  classes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Class',
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -26,29 +32,30 @@ const userSchema = new mongoose.Schema({
 });
 
 // Hash password with SHA-256 before saving
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
   if (!this.isModified('password')) {
     return next();
   }
-  
+
   // Hash the password using SHA-256
   this.password = crypto
     .createHash('sha256')
     .update(this.password)
     .digest('hex');
-  
+
   this.updatedAt = Date.now();
   next();
 });
 
 // Method to compare passwords 
-userSchema.methods.comparePassword = function(candidatePassword) {
+userSchema.methods.comparePassword = function (candidatePassword) {
   const hashedCandidate = crypto
     .createHash('sha256')
     .update(candidatePassword)
     .digest('hex');
-  
+
   return hashedCandidate === this.password;
 };
+
 
 module.exports = mongoose.model('User', userSchema);

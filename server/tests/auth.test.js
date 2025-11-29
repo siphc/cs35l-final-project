@@ -43,7 +43,7 @@ describe('Authentication API', () => {
 
   describe('POST /api/auth/register', () => {
     it('creates a user with valid credentials', async () => {
-      const res = await request(app)
+      await request(app)
         .post('/api/auth/register')
         .send({ email: 'test@example.com', password: 'password123' })
         .expect(201)
@@ -66,7 +66,7 @@ describe('Authentication API', () => {
   });
 
   describe('POST /api/auth/login', () => {
-    let userId
+    let userId;
     beforeEach(async () => {
       await request(app)
         .post('/api/auth/register')
@@ -77,7 +77,7 @@ describe('Authentication API', () => {
     });
 
     it('authenticates with correct credentials', async () => {
-      const res = await request(app)
+      await request(app)
         .post('/api/auth/login')
         .send({ email: 'test@example.com', password: 'password123' })
         .expect(200)
@@ -144,7 +144,7 @@ describe('Authentication API', () => {
   });
 
   describe("GET /api/auth/verify", () => {
-    let userId
+    let userId;
     let sessionId;
     beforeEach(async () => {
       await request(app)

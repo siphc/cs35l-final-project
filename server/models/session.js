@@ -26,12 +26,12 @@ const sessionSchema = new mongoose.Schema({
 });
 
 // Generate unique session ID
-sessionSchema.statics.generateSessionId = function() {
+sessionSchema.statics.generateSessionId = function () {
   return crypto.randomBytes(32).toString('hex');
 };
 
-// Create session with expiration (default 7 days)
-sessionSchema.statics.createSession = async function(userId, hoursUntilExpiry = 24) {
+// Create session with expiration (default 24 hours)
+sessionSchema.statics.createSession = async function (userId, hoursUntilExpiry = 24) {
   const sessionId = this.generateSessionId();
   const expiresAt = new Date();
   expiresAt.setHours(expiresAt.getHours() + hoursUntilExpiry);
