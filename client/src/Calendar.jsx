@@ -1,14 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from './Sidebar';
+import AccountPanel from './AccountPanel';
 import './Calendar.css';
 import './styles.css';
 
-const Calendar = ({ onNavigate }) => {
+const Calendar = ({ user, onNavigate, onLogout }) => {
+  const [showAccountPanel, setShowAccountPanel] = useState(false);
+
+  const handleAccountClick = () => {
+    setShowAccountPanel(true);
+  };
+
+  const handleCloseAccountPanel = () => {
+    setShowAccountPanel(false);
+  };
+
+  const handleLogout = () => {
+    setShowAccountPanel(false);
+    onLogout();
+  };
+
   return (
     <div className="body-with-right-side-primary-nav-expanded full-width-context-user_19897">
-      
+
       {/* Sidebar Navigation */}
-      <Sidebar page="calendar" onNavigate={onNavigate} />
+      <Sidebar
+        page={showAccountPanel ? "account" : "calendar"}
+        onNavigate={(view) => {
+          if (view === 'account') {
+            handleAccountClick();
+          } else {
+            setShowAccountPanel(false);
+            onNavigate(view);
+          }
+        }}
+      />
+
+      {showAccountPanel && (
+        <AccountPanel
+          user={user}
+          onClose={handleCloseAccountPanel}
+          onLogout={handleLogout}
+        />
+      )}
 
       <div id="main-content-wrapper">
         <header className="page-header">
