@@ -8,6 +8,8 @@ import Messaging from './messaging.jsx';
 import Calendar from './calendar.jsx';
 import Register from './register.jsx';
 
+const API_BASE_URL = 'http://localhost:3001';
+
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentView, setCurrentView] = useState('login');
@@ -33,7 +35,7 @@ function App() {
     // Call logout API
     if (sessionId) {
       try {
-        await fetch('http://localhost:5002/api/auth/logout', {
+        await fetch(`${API_BASE_URL}/api/auth/logout`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sessionId }),

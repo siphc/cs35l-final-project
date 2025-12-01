@@ -11,7 +11,7 @@
    - Copy `.env.example` to `.env`
    - Update `MONGODB_URI` with your MongoDB connection string
    - Do NOT change `MONGODB_TEST_URI`! The testing URI should stay on localhost!!!
-   - Adjust `PORT` if needed (default: 5002)
+   - Adjust `PORT` if needed (default: 3001)
 
 3. Start the server:
    ```bash

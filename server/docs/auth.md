@@ -4,7 +4,7 @@ A Node.js/Express REST API for user authentication with MongoDB.
 
 ## API Endpoints
 
-Base URL: `http://localhost:5002`
+Base URL: `http://localhost:3001`
 
 - `POST /api/auth/register` - Register a new user
 - `POST /api/auth/login` - Login user (returns sessionId)
@@ -17,7 +17,7 @@ Base URL: `http://localhost:5002`
 ### Using Fetch API
 
 ```javascript
-const API_URL = 'http://localhost:5002/api/auth';
+const API_URL = 'http://localhost:3001/api/auth';
 
 // Login
 async function login(email, password) {
@@ -58,7 +58,7 @@ async function logout() {
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5002/api/auth',
+  baseURL: 'http://localhost:3001/api/auth',
   headers: { 'Content-Type': 'application/json' }
 });
 
