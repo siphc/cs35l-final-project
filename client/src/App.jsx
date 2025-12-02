@@ -15,7 +15,7 @@ function App() {
   // 1. Check for stored user session on component mount (if they refresh the page)
   useEffect(() => {
     const storedUser = localStorage.getItem('currentUser');
-    if (storedUser) {
+    if (storedUser===undefined || storedUser===null) {
       setCurrentUser(JSON.parse(storedUser));
       setCurrentView('dashboard');
     }

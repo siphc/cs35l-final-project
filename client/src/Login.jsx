@@ -1,40 +1,47 @@
 import React, { useState } from 'react';
 
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'http://localhost:5002';
 
 function Login({ onLoginSuccess, onSwitchToRegister }) {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [messageType, setMessageType] = useState('error');
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
-        setMessage('Attempting to log in...'); 
+        e.preventDefault();
 
-        if (!username || !password) {
-        setMessage("Please enter both your email and password.");
-        return;
-  }
+        if (!email || !password) {
+            setMessageType('error');
+            setMessage('Please enter both email and password');
+            return;
+        }
+
+        setMessageType('info');
+        setMessage('Attempting to log in...');
 
         try {
-            const response = await fetch(`${API_BASE_URL}/api/login`, {
+            const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ email, password }),
             });
 
             const data = await response.json();
 
             if (response.ok) {
-                setMessage(`Login successful! Welcome, ${data.user.username}.`);
-                localStorage.setItem('currentUser', JSON.stringify(data.user));
+                setMessageType('success');
+                setMessage(`Login successful! Welcome, ${data.data.user.email}.`);
+                localStorage.setItem('currentUser', JSON.stringify(data.data.user));
                 onLoginSuccess(data.user);
             } else {
+                setMessageType('error');
                 setMessage(`Login failed: ${data.message || 'Invalid credentials.'}`);
             }
 
         } catch (error) {
             console.error('Network or server error:', error);
+            setMessageType('error');
             setMessage('Could not connect to the server. Is the backend running?');
         }
         setPassword('');
@@ -42,18 +49,19 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
 
     return (
         <div className="login-container">
+            <h1 className="platform-title">Digital Classroom Platform</h1>
             <h2>User Login</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username:</label>
-                <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                <label htmlFor="email">email:</label>
+                <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
                 <label htmlFor="password">Password:</label>
-                <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
                 <button type="submit">Log In</button>
             </form>
 
-            {message && <p className="status-message">{message}</p>}
+            {message && <p className={`status-message ${messageType}`}>{message}</p>}
 
             <p>
                 Don't have an account? 

@@ -1,0 +1,189 @@
+/**
+ * Authentication API Integration Tests
+ * 
+ * Tests user registration and login flows including success cases, validation,
+ * and error handling. Each test suite manages its own database state through
+ * beforeEach hooks to ensure isolation.
+ * 
+ * Prerequisites:
+ * - MongoDB test instance running
+ * - NODE_ENV=test to prevent accidental production database modification
+ * - Server must be available on port 8081
+ * 
+ * Run with: npm test
+ */
+
+const request = require('supertest');
+const mongoose = require('mongoose');
+const app = require('../app');
+const User = require('../models/user');
+const Session = require('../models/session');
+
+describe('Authentication API', () => {
+  let server;
+
+  beforeAll(() => {
+    server = app.listen(8081);
+  });
+
+  afterAll(async () => {
+    await new Promise((resolve) => server.close(resolve));
+    await mongoose.connection.close();
+  });
+
+  beforeEach(async () => {
+    await User.deleteMany({});
+    await Session.deleteMany({});
+  });
+
+  afterEach(async () => {
+    await User.deleteMany({});
+    await Session.deleteMany({});
+  });
+
+  describe('POST /api/auth/register', () => {
+    it('creates a user with valid credentials', async () => {
+      await request(app)
+        .post('/api/auth/register')
+        .send({ email: 'test@example.com', password: 'password123' })
+        .expect(201)
+        .then(res => {
+          expect(res.body.data.id).toBeDefined();
+          expect(res.body.data.createdAt).toBeDefined();
+        });
+    });
+
+    it('rejects duplicate email addresses', async () => {
+      await request(app)
+        .post('/api/auth/register')
+        .send({ email: 'test@example.com', password: 'password123' });
+
+      await request(app)
+        .post('/api/auth/register')
+        .send({ email: 'test@example.com', password: 'different123' })
+        .expect(409);
+    });
+  });
+
+  describe('POST /api/auth/login', () => {
+    let userId;
+    beforeEach(async () => {
+      await request(app)
+        .post('/api/auth/register')
+        .send({ email: 'test@example.com', password: 'password123' })
+        .then(res => {
+          userId = res.body.data.id;
+        });
+    });
+
+    it('authenticates with correct credentials', async () => {
+      await request(app)
+        .post('/api/auth/login')
+        .send({ email: 'test@example.com', password: 'password123' })
+        .expect(200)
+        .then(res => {
+          expect(res.body.data.user.email).toBe('test@example.com');
+          expect(res.body.data.user.id).toBe(userId);
+          expect(res.body.data.sessionId).toBeDefined();
+        });
+    });
+
+    it('rejects incorrect password', async () => {
+      await request(app)
+        .post('/api/auth/login')
+        .send({ email: 'test@example.com', password: 'wrongpassword' })
+        .expect(401);
+    });
+
+    it('rejects non-existent email', async () => {
+      await request(app)
+        .post('/api/auth/login')
+        .send({ email: 'nonexistent@example.com', password: 'password123' })
+        .expect(401);
+    });
+  });
+
+  describe("POST /api/auth/logout", () => {
+    let sessionId;
+    beforeEach(async () => {
+      await request(app)
+        .post('/api/auth/register')
+        .send({ email: 'test@example.com', password: 'password123' });
+      await request(app)
+        .post('/api/auth/login')
+        .send({ email: 'test@example.com', password: 'password123' })
+        .then(res => {
+          sessionId = res.body.data.sessionId;
+        });
+    });
+
+    it('rejects logout with missing session ID', async () => {
+      await request(app)
+        .post('/api/auth/logout')
+        .send({})
+        .expect(400);
+    });
+
+    it('rejects logout with invalid session ID', async () => {
+      await request(app)
+        .post('/api/auth/logout')
+        .send({ sessionId: 'invalid-session-id' })
+        .expect(404);
+    });
+
+    it('logs out a user with valid session ID', async () => {
+      await request(app)
+        .post('/api/auth/logout')
+        .send({ sessionId })
+        .expect(200);
+      await request(app)
+        .get('/api/auth/verify')
+        .query({ sessionId })
+        .expect(401);
+    });
+  });
+
+  describe("GET /api/auth/verify", () => {
+    let userId;
+    let sessionId;
+    beforeEach(async () => {
+      await request(app)
+        .post('/api/auth/register')
+        .send({ email: 'test@example.com', password: 'password123' })
+        .then(res => {
+          userId = res.body.data.id;
+        });
+      await request(app)
+        .post('/api/auth/login')
+        .send({ email: 'test@example.com', password: 'password123' })
+        .then(res => {
+          sessionId = res.body.data.sessionId;
+        });
+    });
+
+    it('rejects verification with missing session ID', async () => {
+      await request(app)
+        .get('/api/auth/verify')
+        .expect(400);
+    });
+
+    it('rejects verification with invalid session ID', async () => {
+      await request(app)
+        .get('/api/auth/verify')
+        .query({ sessionId: 'invalid-session-id' })
+        .expect(401);
+    });
+
+    it('verifies a valid session ID', async () => {
+      await request(app)
+        .get('/api/auth/verify')
+        .query({ sessionId })
+        .expect(200)
+        .then(res => {
+          expect(res.body.success).toBe(true);
+          expect(res.body.data.user.id).toBe(userId);
+          expect(res.body.data.user.email).toBe('test@example.com');
+        });
+    });
+  });
+});
