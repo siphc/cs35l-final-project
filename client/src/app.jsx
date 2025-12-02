@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './app.css';
 import Login from './login.jsx';
 import Dashboard from './dashboard.jsx';
-import Assignment from './assignment.jsx';
 import Account from './account.jsx';
 import Messaging from './messaging.jsx';
 import Calendar from './calendar.jsx';
@@ -102,7 +101,6 @@ function App() {
         <Dashboard
           user={currentUser}
           onLogout={handleLogout}
-          onViewAssignments={() => handleSwitchView('assignments')}
           onNavigate={handleSwitchView}
           onSelectClass={handleSelectClass}
         />
@@ -118,9 +116,6 @@ function App() {
           onLogout={handleLogout}
         />
       );
-    } else if (currentUser && currentView === 'assignments') {
-      // If viewing assignments, show the Assignment Page
-      return <Assignment onBack={() => handleSwitchView('dashboard')} />;
     } else if (currentUser && currentView === 'account') {
       return <Account onNavigate={handleSwitchView} onLogout={handleLogout} />;
     } else if (currentView === 'register') {
