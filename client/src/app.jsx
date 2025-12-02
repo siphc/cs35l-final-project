@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import './app.css'; 
-import Login from './login.jsx'; 
+import './app.css';
+import Login from './login.jsx';
 import Dashboard from './dashboard.jsx';
 import Assignment from './assignment.jsx';
 import Account from './account.jsx';
 import Messaging from './messaging.jsx';
 import Calendar from './calendar.jsx';
 import Register from './register.jsx';
+import Course from './Course.jsx';
 
 const API_BASE_URL = 'http://localhost:3001';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentView, setCurrentView] = useState('login');
+  const [selectedClass, setSelectedClass] = useState(null);
+  const [courseView, setCourseView] = useState('assignments');
 
   // 1. Check for stored user session on component mount (if they refresh the page)
   useEffect(() => {
@@ -51,9 +54,15 @@ function App() {
     setCurrentUser(null);
     setCurrentView('login'); // Return to login page
   };
-  
+
   const handleSwitchView = (view) => {
-      setCurrentView(view);
+    setCurrentView(view);
+  };
+
+  const handleSelectClass = (classObj) => {
+    setSelectedClass(classObj);
+    setCourseView('assignments');
+    setCurrentView('course');
   };
 
   // 2. Conditional Rendering Logic
@@ -61,30 +70,42 @@ function App() {
     if (currentUser && currentView === 'dashboard') {
       // If logged in, show the Dashboard
       return (
-        <Dashboard 
-          user={currentUser} 
-          onLogout={handleLogout} 
-          onViewAssignments={() => handleSwitchView('assignments')} 
+        <Dashboard
+          user={currentUser}
+          onLogout={handleLogout}
+          onViewAssignments={() => handleSwitchView('assignments')}
           onNavigate={handleSwitchView}
+          onSelectClass={handleSelectClass}
         />
       );
-    }else if (currentUser && currentView === 'assignments') {
+    } else if (currentUser && currentView === 'course' && selectedClass) {
+      // Course view with tabs (assignments, grades, groups)
+      return (
+        <Course
+          classData={selectedClass}
+          currentTab={courseView}
+          onTabChange={setCourseView}
+          onNavigate={handleSwitchView}
+          onLogout={handleLogout}
+        />
+      );
+    } else if (currentUser && currentView === 'assignments') {
       // If viewing assignments, show the Assignment Page
       return <Assignment onBack={() => handleSwitchView('dashboard')} />;
-    }else if (currentUser && currentView === 'account') {
+    } else if (currentUser && currentView === 'account') {
       return <Account onNavigate={handleSwitchView} onLogout={handleLogout} />;
-    }else if (currentView === 'register') {
+    } else if (currentView === 'register') {
       return <Register onSwitchToLogin={() => handleSwitchView('login')} />;
-    }else if (currentUser && currentView === 'messaging') {
+    } else if (currentUser && currentView === 'messaging') {
       return <Messaging onNavigate={handleSwitchView} onLogout={handleLogout} />;
-    }else if (currentUser && currentView === 'calendar') {
+    } else if (currentUser && currentView === 'calendar') {
       return <Calendar onNavigate={handleSwitchView} onLogout={handleLogout} />;
-    }else {
+    } else {
       // Default view is 'login' (The missing part!)
       return (
-        <Login 
-          onLoginSuccess={handleLogin} 
-          onSwitchToRegister={() => handleSwitchView('register')} 
+        <Login
+          onLoginSuccess={handleLogin}
+          onSwitchToRegister={() => handleSwitchView('register')}
         />
       );
     }
