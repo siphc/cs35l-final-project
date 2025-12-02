@@ -4,7 +4,7 @@ import './styles.css';
 
 const API_BASE_URL = 'http://localhost:3001';
 
-const Dashboard = ({ onViewAssignments, onNavigate, onLogout, onSelectClass }) => {
+const Dashboard = ({ onNavigate, onLogout, onSelectClass }) => {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -151,11 +151,6 @@ const Dashboard = ({ onViewAssignments, onNavigate, onLogout, onSelectClass }) =
                 style={{ backgroundColor: '#007bff', color: 'white', padding: '10px 15px', borderRadius: '5px', border: 'none', cursor: 'pointer', fontSize: '1rem', textDecoration: 'none' }}
                 >
                     Go to Messaging Center
-                </button>
-
-                <button onClick={onViewAssignments} className="dashboard-button"
-                    style={{ backgroundColor: '#28a745', color: 'white', padding: '10px 15px', borderRadius: '5px', border: 'none', cursor: 'pointer', fontSize: '1rem' }}>
-                    View Assignments
                 </button>
 
                 <button
