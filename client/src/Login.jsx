@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const API_BASE_URL = 'http://localhost:5002';
+const API_BASE_URL = 'http://localhost:3001';
 
 function Login({ onLoginSuccess, onSwitchToRegister }) {
     const [email, setEmail] = useState('');
@@ -33,7 +33,7 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
                 setMessageType('success');
                 setMessage(`Login successful! Welcome, ${data.data.user.email}.`);
                 localStorage.setItem('currentUser', JSON.stringify(data.data.user));
-                onLoginSuccess(data.user);
+                onLoginSuccess(data.data.user);
             } else {
                 setMessageType('error');
                 setMessage(`Login failed: ${data.message || 'Invalid credentials.'}`);

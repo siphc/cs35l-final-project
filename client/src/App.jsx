@@ -10,14 +10,16 @@ import CoursePage from './CoursePage.jsx';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({ username: 'Test User' });
-  const [currentView, setCurrentView] = useState('dashboard');
+  const [currentView, setCurrentView] = useState('login');
 
   // 1. Check for stored user session on component mount (if they refresh the page)
   useEffect(() => {
     const storedUser = localStorage.getItem('currentUser');
-    if (storedUser===undefined || storedUser===null) {
+    if (storedUser != null && storedUser!==undefined) {
       setCurrentUser(JSON.parse(storedUser));
       setCurrentView('dashboard');
+    } else {
+      setCurrentView('login');
     }
   }, []);
 
