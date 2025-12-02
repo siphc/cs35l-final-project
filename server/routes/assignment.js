@@ -306,64 +306,64 @@ router.get('/grades/:classId', authMiddleware, async (req, res) => {
     const userIsInstructor = await isInstructor(req.user._id, classId);
 
     if (userIsInstructor) {
-       // Get the class with all members populated
-       const classDoc = await Class.findById(classId)
-         .populate('members', 'email displayName')
-         .lean();
+      // Get the class with all members populated
+      const classDoc = await Class.findById(classId)
+        .populate('members', 'email displayName')
+        .lean();
 
-       if (!classDoc) {
-         return res.status(404).json({
-           success: false,
-           message: 'Class not found',
-         });
-       }
+      if (!classDoc) {
+        return res.status(404).json({
+          success: false,
+          message: 'Class not found',
+        });
+      }
 
-       const assignments = await Assignment.find({ class: classId })
-         .sort({ dueDate: 1 })
-         .lean();
+      const assignments = await Assignment.find({ class: classId })
+        .sort({ dueDate: 1 })
+        .lean();
 
-       const assignmentsWithGrades = await Promise.all(
-         assignments.map(async (assignment) => {
-           // Fetch existing grades for this assignment
-           const existingGrades = await Grade.find({ assignment: assignment._id }).lean();
+      const assignmentsWithGrades = await Promise.all(
+        assignments.map(async (assignment) => {
+          // Fetch existing grades for this assignment
+          const existingGrades = await Grade.find({ assignment: assignment._id }).lean();
 
-           // Create a map of studentId -> grade for quick lookup
-           const gradeMap = {};
-           existingGrades.forEach(grade => {
-             gradeMap[grade.student.toString()] = grade;
-           });
+          // Create a map of studentId -> grade for quick lookup
+          const gradeMap = {};
+          existingGrades.forEach(grade => {
+            gradeMap[grade.student.toString()] = grade;
+          });
 
-           // Create grade entry for EVERY student in the class
-           const grades = classDoc.members.map(student => {
-             const existingGrade = gradeMap[student._id.toString()];
+          // Create grade entry for EVERY student in the class
+          const grades = classDoc.members.map(student => {
+            const existingGrade = gradeMap[student._id.toString()];
 
-             return {
-               student: {
-                 id: student._id,
-                 email: student.email,
-                 displayName: student.displayName || student.email,
-               },
-               score: existingGrade ? existingGrade.score : undefined,
-               feedback: existingGrade ? existingGrade.feedback : '',
-               gradedAt: existingGrade ? existingGrade.gradedAt : null,
-             };
-           });
+            return {
+              student: {
+                id: student._id,
+                email: student.email,
+                displayName: student.displayName || student.email,
+              },
+              score: existingGrade ? existingGrade.score : undefined,
+              feedback: existingGrade ? existingGrade.feedback : '',
+              gradedAt: existingGrade ? existingGrade.gradedAt : null,
+            };
+          });
 
-           return {
-             id: assignment._id,
-             title: assignment.title,
-             pointsPossible: assignment.pointsPossible,
-             dueDate: assignment.dueDate,
-             grades,
-           };
-         })
-       );
+          return {
+            id: assignment._id,
+            title: assignment.title,
+            pointsPossible: assignment.pointsPossible,
+            dueDate: assignment.dueDate,
+            grades,
+          };
+        })
+      );
 
-       return res.status(200).json({
-         success: true,
-         data: { assignments: assignmentsWithGrades },
-       });
-     }
+      return res.status(200).json({
+        success: true,
+        data: { assignments: assignmentsWithGrades },
+      });
+    }
     else {
       // Student view: only their own grades
       const assignments = await Assignment.find({ class: classId })
@@ -400,6 +400,38 @@ router.get('/grades/:classId', authMiddleware, async (req, res) => {
     }
   } catch (error) {
     console.error('Get grades error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    });
+  }
+});
+
+/**
+ * @route   GET /api/assignment/my-assignments
+ * @desc    Get all assignments for classes the user is enrolled in
+ * @access  Private
+ */
+router.get('/my-assignments', authMiddleware, async (req, res) => {
+  try {
+    // Find all classes where the user is a member or creator
+    const classes = await Class.find({
+      $or: [{ members: req.user._id }, { creator: req.user._id }],
+    }).select('_id name');
+
+    const classIds = classes.map((c) => c._id);
+
+    // Find all assignments for these classes
+    const assignments = await Assignment.find({ class: { $in: classIds } })
+      .populate('class', 'name') // Populate class name
+      .sort({ dueDate: 1 });
+
+    res.json({
+      success: true,
+      data: assignments,
+    });
+  } catch (error) {
+    console.error('Get my assignments error:', error);
     res.status(500).json({
       success: false,
       message: 'Internal server error',

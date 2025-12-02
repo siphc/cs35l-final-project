@@ -100,7 +100,7 @@
   width: 60px;
   padding: 4px;
   border: 1px solid #003366;
-  borderRadius: 4px;
+  border-radius: 4px;
 }
 
 /* Modal Styles (if not already in styles.css) */
@@ -110,4 +110,42 @@
   background-color: #e7f3ff;
   border-left: 3px solid #003366;
   color: #003366;
+}
+
+/* Course Navigation Tabs */
+.course-nav {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+  padding-left: 10px;
+}
+
+.course-nav-link {
+  padding: 10px 20px;
+  margin-right: 5px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  color: #007bff;
+  text-decoration: none;
+  background-color: #f8f9fa;
+  transition: all 0.2s ease;
+  position: relative;
+  top: 1px;
+  /* Push down to sit on border */
+}
+
+.course-nav-link:hover {
+  background-color: #e2e6ea;
+  text-decoration: none;
+  color: #0056b3;
+}
+
+.course-nav-link.active {
+  background-color: white;
+  border-color: #ddd;
+  border-bottom-color: white;
+  color: #495057;
+  font-weight: bold;
+  z-index: 1;
 }

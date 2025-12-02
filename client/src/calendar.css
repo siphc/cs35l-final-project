@@ -17,9 +17,11 @@
 
 .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 Days a week */
+    grid-template-columns: repeat(7, 1fr);
+    /* 7 Days a week */
     gap: 1px;
-    background-color: #ddd; /* Grid lines */
+    background-color: #ddd;
+    /* Grid lines */
     border: 1px solid #ddd;
 }
 
@@ -33,9 +35,10 @@
 
 .calendar-cell {
     background-color: white;
-    min-height: 100px;
+    min-height: 120px;
     padding: 5px;
     position: relative;
+    overflow: hidden;
 }
 
 .day-number {
@@ -43,17 +46,285 @@
     margin-bottom: 5px;
     display: block;
     color: #333;
+    position: relative;
+    z-index: 1;
 }
 
+/* Events container to hold positioned events */
+.events-container {
+    position: relative;
+    height: calc(100% - 25px);
+    margin-top: 5px;
+}
+
+/* Event styling with time-based positioning */
 .calendar-event {
+    position: absolute;
+    left: 2px;
+    right: 2px;
     font-size: 0.75rem;
-    padding: 2px 5px;
-    margin-bottom: 2px;
+    padding: 4px 6px;
     border-radius: 3px;
     color: white;
     cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: transform 0.1s, box-shadow 0.1s;
+    display: flex;
+    align-items: center;
+    min-height: 22px;
+    z-index: 2;
 }
 
-.event-blue { background-color: #007bff; }
-.event-green { background-color: #28a745; }
-.event-red { background-color: #dc3545; }
+.calendar-event:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.event-title {
+    font-size: 0.75rem;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+/* More events indicator */
+.more-events {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    background-color: #6c757d;
+    color: white;
+    text-align: center;
+    padding: 2px;
+    font-size: 0.7rem;
+    border-radius: 3px;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.more-events:hover {
+    background-color: #5a6268;
+}
+
+.event-blue {
+    background-color: #007bff;
+}
+
+.event-green {
+    background-color: #28a745;
+}
+
+.event-red {
+    background-color: #dc3545;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s;
+}
+
+.close-button:hover {
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.color-picker {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.color-option {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+.color-option.selected {
+    border-color: #333;
+    transform: scale(1.15);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Event detail modal */
+.event-detail {
+    padding: 10px 0;
+}
+
+.detail-row {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.detail-row strong {
+    color: #555;
+    margin-right: 8px;
+}
+
+/* All events list modal */
+.all-events-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.event-list-item {
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.event-list-item:hover {
+    background-color: #e9ecef !important;
+    transform: translateX(5px);
+}
+
+/* Page header with create button */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-header h1 {
+    margin: 0;
+}
+
+.page-header .dashboard-button {
+    white-space: nowrap;
+}
