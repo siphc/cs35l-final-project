@@ -6,6 +6,7 @@ import Assignment from './Assignment.jsx';
 import Messaging from './Messaging.jsx';
 import Calendar from './Calendar.jsx';
 import Register from './Register';
+import CoursePage from './CoursePage.jsx';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({ username: 'Test User' });
@@ -58,12 +59,15 @@ function App() {
       return <Messaging user={currentUser} onNavigate={handleSwitchView} onLogout={handleLogout} />;
     }else if (currentUser && currentView === 'calendar') {
       return <Calendar user={currentUser} onNavigate={handleSwitchView} onLogout={handleLogout} />;
+    }else if (currentUser && currentView.startsWith('course-')) {
+      // Handle all course pages
+      return <CoursePage user={currentUser} onNavigate={handleSwitchView} onLogout={handleLogout} />;
     }else {
       // Default view is 'login' (The missing part!)
       return (
-        <Login 
-          onLoginSuccess={handleLogin} 
-          onSwitchToRegister={() => handleSwitchView('register')} 
+        <Login
+          onLoginSuccess={handleLogin}
+          onSwitchToRegister={() => handleSwitchView('register')}
         />
       );
     }
