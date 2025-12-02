@@ -19,12 +19,41 @@ function App() {
 
   // 1. Check for stored user session on component mount (if they refresh the page)
   useEffect(() => {
-    const storedUser = localStorage.getItem('currentUser');
-    const sessionId = localStorage.getItem('sessionId');
-    if (storedUser && sessionId) {
-      setCurrentUser(JSON.parse(storedUser));
-      setCurrentView('dashboard');
-    }
+    const verifySession = async () => {
+      const storedUser = localStorage.getItem('currentUser');
+      const sessionId = localStorage.getItem('sessionId');
+
+      if (storedUser && sessionId) {
+        try {
+          // Verify session is still valid with backend
+          const response = await fetch(`${API_BASE_URL}/api/auth/verify`, {
+            method: 'GET',
+            headers: {
+              'x-session-id': sessionId,
+            },
+          });
+
+          if (response.ok) {
+            // Session is valid, restore user state
+            setCurrentUser(JSON.parse(storedUser));
+            setCurrentView('dashboard');
+          } else {
+            // Session expired or invalid, clear localStorage
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('sessionId');
+            setCurrentView('login');
+          }
+        } catch (error) {
+          console.error('Session verification error:', error);
+          // On error, clear session and go to login
+          localStorage.removeItem('currentUser');
+          localStorage.removeItem('sessionId');
+          setCurrentView('login');
+        }
+      }
+    };
+
+    verifySession();
   }, []);
 
   const handleLogin = (user) => {
@@ -101,7 +130,7 @@ function App() {
     } else if (currentUser && currentView === 'calendar') {
       return <Calendar onNavigate={handleSwitchView} onLogout={handleLogout} />;
     } else {
-      // Default view is 'login' (The missing part!)
+      // Default view is login
       return (
         <Login
           onLoginSuccess={handleLogin}
