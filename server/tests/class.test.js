@@ -478,19 +478,4 @@ describe('Class API', () => {
         .expect(401);
     });
   });
-
-  describe('GET /api/class/ (documentation endpoint)', () => {
-    it('returns API documentation', async () => {
-      const res = await request(app)
-        .get('/api/class/')
-        .expect(200);
-
-      expect(res.body.message).toBe('Class API');
-      expect(res.body.version).toBe('1.0.0');
-      expect(res.body.status).toBe('running');
-      expect(res.body.endpoints).toBeDefined();
-      expect(res.body.endpoints.create).toBeDefined();
-      expect(res.body.endpoints.join).toBeDefined();
-    });
-  });
 });

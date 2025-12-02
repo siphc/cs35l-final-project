@@ -4,7 +4,7 @@ import './styles.css';
 
 const API_BASE_URL = 'http://localhost:3001';
 
-const Dashboard = ({ onViewAssignments, onNavigate, onLogout }) => {
+const Dashboard = ({ onNavigate, onLogout, onSelectClass }) => {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -153,11 +153,6 @@ const Dashboard = ({ onViewAssignments, onNavigate, onLogout }) => {
                     Go to Messaging Center
                 </button>
 
-                <button onClick={onViewAssignments} className="dashboard-button"
-                    style={{ backgroundColor: '#28a745', color: 'white', padding: '10px 15px', borderRadius: '5px', border: 'none', cursor: 'pointer', fontSize: '1rem' }}>
-                    View Assignments
-                </button>
-
                 <button
                 onClick={() => setShowJoinModal(true)}
                 className="dashboard-button"
@@ -187,7 +182,12 @@ const Dashboard = ({ onViewAssignments, onNavigate, onLogout }) => {
                         <div
                             key={cls.id}
                             className="dashboard-card"
-                            style={{ backgroundColor: index % 2 === 0 ? '#3f51b5' : '#00bcd4', color: 'white' }}
+                            onClick={() => onSelectClass(cls)}
+                            style={{
+                                backgroundColor: index % 2 === 0 ? '#3f51b5' : '#00bcd4',
+                                color: 'white',
+                                cursor: 'pointer'
+                            }}
                         >
                             <h3>{cls.name}</h3>
                             <p>{cls.description}</p>

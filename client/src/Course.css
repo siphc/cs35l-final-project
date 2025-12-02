@@ -1,0 +1,113 @@
+/* Course.css - Styles for course-specific components */
+
+/* Members Grid for Groups Tab */
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+/* Member Cards */
+.member-card {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.member-card.instructor {
+  background-color: #e7f3ff;
+  border-color: #003366;
+  border-width: 2px;
+}
+
+.member-card.student {
+  background-color: #f8f9fa;
+}
+
+/* Role Badges */
+.role-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.role-badge.instructor {
+  background-color: #003366;
+  color: white;
+}
+
+.role-badge.student {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Email text */
+.email {
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* Create Assignment Form */
+.create-assignment-form label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.create-assignment-form input,
+.create-assignment-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1em;
+}
+
+.create-assignment-form input:focus,
+.create-assignment-form textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+}
+
+/* Grade Entry Forms */
+.grade-entry-form {
+  margin-top: 10px;
+}
+
+.grade-cell {
+  cursor: pointer;
+  padding: 8px;
+  border: 1px solid transparent;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.grade-cell:hover {
+  background-color: #f0f0f0;
+  border-color: #003366;
+}
+
+.grade-input {
+  width: 60px;
+  padding: 4px;
+  border: 1px solid #003366;
+  borderRadius: 4px;
+}
+
+/* Modal Styles (if not already in styles.css) */
+.modal-message {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #e7f3ff;
+  border-left: 3px solid #003366;
+  color: #003366;
+}
