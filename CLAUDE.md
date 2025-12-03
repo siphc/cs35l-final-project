@@ -753,6 +753,47 @@ router.post('/restricted-action', authMiddleware, async (req, res) => {
 4. **Suggest best practices** - follow this project's conventions
 5. **Link to relevant files** - help user navigate codebase
 
+### Frontend Design Principles
+
+**Avoid Generic "AI Slop" Aesthetics** - AI assistants tend to converge toward generic, "on distribution" outputs. In frontend design, this creates what users call the "AI slop" aesthetic. Avoid this by making creative, distinctive frontends that surprise and delight.
+
+#### Typography
+- Choose fonts that are **beautiful, unique, and interesting**
+- **Avoid generic fonts** like Arial, Inter, Roboto, and system fonts
+- Opt for distinctive choices that elevate the frontend's aesthetics
+- Consider typography as a primary design element
+
+#### Color & Theme
+- **Commit to a cohesive aesthetic** - use CSS variables for consistency
+- **Dominant colors with sharp accents** outperform timid, evenly-distributed palettes
+- Draw inspiration from IDE themes and cultural aesthetics
+- **Avoid clichéd color schemes**, particularly purple gradients on white backgrounds
+- Vary between light and dark themes based on context
+
+#### Motion & Animation
+- Use animations for effects and micro-interactions
+- **Prioritize CSS-only solutions** for HTML elements
+- Use Motion library for React when available
+- Focus on **high-impact moments**: one well-orchestrated page load with staggered reveals (`animation-delay`) creates more delight than scattered micro-interactions
+- Make animations purposeful and contextual
+
+#### Backgrounds
+- Create **atmosphere and depth** rather than defaulting to solid colors
+- Layer CSS gradients for visual interest
+- Use geometric patterns when appropriate
+- Add contextual effects that match the overall aesthetic
+- Think beyond plain white or gray backgrounds
+
+#### What to Avoid
+- ❌ Overused font families (Inter, Roboto, Arial, system fonts, Space Grotesk)
+- ❌ Clichéd color schemes and predictable palettes
+- ❌ Generic layouts and cookie-cutter component patterns
+- ❌ Design that lacks context-specific character
+- ❌ Converging on common choices across generations
+
+#### Key Principle
+**Interpret creatively and make unexpected choices** that feel genuinely designed for the context. Think outside the box and create frontends that have personality and distinction. Each design should feel intentional and unique to its purpose.
+
 ---
 
 ## Quick Reference
@@ -816,7 +857,9 @@ MONGODB_TEST_URI=mongodb://localhost:27017/35l_app_test
 
 ## Changelog
 
-- **2025-12-03**: Initial CLAUDE.md creation with comprehensive codebase analysis
+- **2025-12-03**:
+  - Initial CLAUDE.md creation with comprehensive codebase analysis
+  - Added Frontend Design Principles section to guide AI assistants in creating distinctive, non-generic UIs
 
 ---
 
