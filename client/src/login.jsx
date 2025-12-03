@@ -44,7 +44,6 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
 
     return (
         <div className="login-container">
-            <h1>Digital Classroom Platform</h1>
             <h2>User Login</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email">Email:</label>
@@ -59,7 +58,8 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
             {message && <p className="status-message">{message}</p>}
 
             <p>
-                Don't have an account?
+                <br></br>
+                Don't have an account?&nbsp;
                 <a href="#" onClick={(e) => {e.preventDefault(); onSwitchToRegister();}}>
                     Register here
                 </a>
