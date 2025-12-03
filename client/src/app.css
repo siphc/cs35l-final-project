@@ -155,32 +155,16 @@
 .status-message {
   margin-top: 15px;
   padding: 15px 20px;
-  padding-left: 20px;
-  background-color: white !important;
+  background-color: white;
   border-radius: 8px;
   font-size: 0.95rem;
   text-align: center;
   max-width: 400px;
   font-family: Arial, sans-serif;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-left: 4px solid;
   font-weight: 500;
   line-height: 1.5;
-}
-
-.status-message.error {
-  color: #d32f2f !important;
-  border-left-color: #d32f2f;
-}
-
-.status-message.success {
-  color: #2e7d32 !important;
-  border-left-color: #4caf50;
-}
-
-.status-message.info {
-  color: #1976d2 !important;
-  border-left-color: #2196f3;
+  color: black !important;
 }
 
 .login-container p,
