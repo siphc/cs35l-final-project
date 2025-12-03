@@ -10,7 +10,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 */
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    const userID = req.user._id;
+    const userID = req.user;
     const user = await User.findById(userID).select('-password'); // Exclude password
 
     if (!user) {
@@ -41,7 +41,7 @@ router.get('/', authMiddleware, async (req, res) => {
 */
 router.put('/update-displayName', authMiddleware, async (req, res) => {
   try {
-    const userID = req.user._id;
+    const userID = req.user;
     const { displayName } = req.body;
 
     const user = await User.findById(userID);
@@ -59,7 +59,7 @@ router.put('/update-displayName', authMiddleware, async (req, res) => {
       success: true,
       message: 'Profile updated successfully',
       data: {
-        id: user._id,
+        id: user,
         email: user.email,
         displayName: user.displayName,
       },

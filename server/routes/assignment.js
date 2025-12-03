@@ -204,14 +204,15 @@ router.delete('/:assignmentId', authMiddleware, async (req, res) => {
 
 /**
  * @route   POST /api/assignment/grade
- * @desc    Create or update a grade for a student (instructor only)
- * @access  Private
+ * @desc    Grade an assignment for a student
+ * @access  Private (Instructor only)
  */
 router.post('/grade', authMiddleware, async (req, res) => {
   try {
     const { assignmentId, studentId, score, feedback = '' } = req.body;
+    const instructorId = req.user._id;
 
-    // Validate required fields
+    // Validation: All required fields present
     if (!assignmentId || !studentId || score === undefined) {
       return res.status(400).json({
         success: false,
@@ -219,7 +220,15 @@ router.post('/grade', authMiddleware, async (req, res) => {
       });
     }
 
-    // Find the assignment
+    // Validation: Score is a valid number
+    if (typeof score !== 'number' || isNaN(score)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Score must be a valid number',
+      });
+    }
+
+    // Get the assignment to verify it exists and check pointsPossible
     const assignment = await Assignment.findById(assignmentId);
     if (!assignment) {
       return res.status(404).json({
@@ -254,26 +263,39 @@ router.post('/grade', authMiddleware, async (req, res) => {
       });
     }
 
-    // create or update the grade
-    const grade = await Grade.findOneAndUpdate(
-      { assignment: assignmentId, student: studentId },
-      {
+    // Find existing grade or create new one
+    let grade = await Grade.findOne({
+      assignment: assignmentId,
+      student: studentId,
+    });
+
+    if (grade) {
+      // Update existing grade
+      grade.score = score;
+      grade.feedback = feedback;
+      grade.gradedAt = new Date();
+      grade.gradedBy = instructorId;
+    } else {
+      // Create new grade
+      grade = new Grade({
+        assignment: assignmentId,
+        student: studentId,
         score,
         feedback,
-        gradedBy: req.user._id,
-        gradedAt: Date.now(),
-      },
-      { upsert: true, new: true }
-    );
+        gradedBy: instructorId,
+      });
+    }
+
+    await grade.save();
 
     res.status(200).json({
       success: true,
       message: 'Grade saved successfully',
       data: {
-        assignmentId: grade.assignment,
-        studentId: grade.student,
+        id: grade._id,
         score: grade.score,
         feedback: grade.feedback,
+        gradedAt: grade.gradedAt,
       },
     });
   } catch (error) {
@@ -306,64 +328,64 @@ router.get('/grades/:classId', authMiddleware, async (req, res) => {
     const userIsInstructor = await isInstructor(req.user._id, classId);
 
     if (userIsInstructor) {
-      // Get the class with all members populated
-      const classDoc = await Class.findById(classId)
-        .populate('members', 'email displayName')
-        .lean();
+       // Get the class with all members populated
+       const classDoc = await Class.findById(classId)
+         .populate('members', 'email displayName')
+         .lean();
 
-      if (!classDoc) {
-        return res.status(404).json({
-          success: false,
-          message: 'Class not found',
-        });
-      }
+       if (!classDoc) {
+         return res.status(404).json({
+           success: false,
+           message: 'Class not found',
+         });
+       }
 
-      const assignments = await Assignment.find({ class: classId })
-        .sort({ dueDate: 1 })
-        .lean();
+       const assignments = await Assignment.find({ class: classId })
+         .sort({ dueDate: 1 })
+         .lean();
 
-      const assignmentsWithGrades = await Promise.all(
-        assignments.map(async (assignment) => {
-          // Fetch existing grades for this assignment
-          const existingGrades = await Grade.find({ assignment: assignment._id }).lean();
+       const assignmentsWithGrades = await Promise.all(
+         assignments.map(async (assignment) => {
+           // Fetch existing grades for this assignment
+           const existingGrades = await Grade.find({ assignment: assignment._id }).lean();
 
-          // Create a map of studentId -> grade for quick lookup
-          const gradeMap = {};
-          existingGrades.forEach(grade => {
-            gradeMap[grade.student.toString()] = grade;
-          });
+           // Create a map of studentId -> grade for quick lookup
+           const gradeMap = {};
+           existingGrades.forEach(grade => {
+             gradeMap[grade.student.toString()] = grade;
+           });
 
-          // Create grade entry for EVERY student in the class
-          const grades = classDoc.members.map(student => {
-            const existingGrade = gradeMap[student._id.toString()];
+           // Create grade entry for EVERY student in the class
+           const grades = classDoc.members.map(student => {
+             const existingGrade = gradeMap[student._id.toString()];
 
-            return {
-              student: {
-                id: student._id,
-                email: student.email,
-                displayName: student.displayName || student.email,
-              },
-              score: existingGrade ? existingGrade.score : undefined,
-              feedback: existingGrade ? existingGrade.feedback : '',
-              gradedAt: existingGrade ? existingGrade.gradedAt : null,
-            };
-          });
+             return {
+               student: {
+                 id: student._id,
+                 email: student.email,
+                 displayName: student.displayName || student.email,
+               },
+               score: existingGrade ? existingGrade.score : undefined,
+               feedback: existingGrade ? existingGrade.feedback : '',
+               gradedAt: existingGrade ? existingGrade.gradedAt : null,
+             };
+           });
 
-          return {
-            id: assignment._id,
-            title: assignment.title,
-            pointsPossible: assignment.pointsPossible,
-            dueDate: assignment.dueDate,
-            grades,
-          };
-        })
-      );
+           return {
+             id: assignment._id,
+             title: assignment.title,
+             pointsPossible: assignment.pointsPossible,
+             dueDate: assignment.dueDate,
+             grades,
+           };
+         })
+       );
 
-      return res.status(200).json({
-        success: true,
-        data: { assignments: assignmentsWithGrades },
-      });
-    }
+       return res.status(200).json({
+         success: true,
+         data: { assignments: assignmentsWithGrades },
+       });
+     }
     else {
       // Student view: only their own grades
       const assignments = await Assignment.find({ class: classId })
