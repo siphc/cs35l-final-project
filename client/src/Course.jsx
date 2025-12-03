@@ -3,6 +3,7 @@ import Sidebar from './sidebar.jsx';
 import AssignmentsTab from './AssignmentsTab.jsx';
 import GradesTab from './GradesTab.jsx';
 import GroupsTab from './GroupsTab.jsx';
+import PeopleTab from './PeopleTab.jsx';
 import './Course.css';
 import './styles.css';
 
@@ -45,6 +46,13 @@ const Course = ({ classData, currentTab, onTabChange, onNavigate, onLogout }) =>
             Grades
           </a>
           <a
+            onClick={() => onTabChange('people')}
+            className={`course-nav-link ${currentTab === 'people' ? 'active' : ''}`}
+            style={{ cursor: 'pointer' }}
+          >
+            People
+          </a>
+          <a
             onClick={() => onTabChange('groups')}
             className={`course-nav-link ${currentTab === 'groups' ? 'active' : ''}`}
             style={{ cursor: 'pointer' }}
@@ -60,8 +68,11 @@ const Course = ({ classData, currentTab, onTabChange, onNavigate, onLogout }) =>
           {currentTab === 'grades' && (
             <GradesTab classData={classData} />
           )}
+          {currentTab === 'people' && (
+            <PeopleTab classData={classData} />
+          )}
           {currentTab === 'groups' && (
-            <GroupsTab classData={classData} />
+            <GroupsTab classData={classData} onNavigate={onNavigate} />
           )}
         </div>
       </div>
