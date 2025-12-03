@@ -137,8 +137,13 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Digital Classroom Platform</h1>
-      {renderContent()}
+      {(currentView === 'login' || currentView === 'register') && (
+        <div className="auth-page-wrapper">
+          <h1 className="auth-title">Digital Classroom Platform</h1>
+          {renderContent()}
+        </div>
+      )}
+      {currentView !== 'login' && currentView !== 'register' && renderContent()}
     </div>
   );
 }

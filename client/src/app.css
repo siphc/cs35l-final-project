@@ -10,6 +10,30 @@
   background: linear-gradient(135deg, var(--color-bg-base) 0%, var(--color-bg-muted) 100%);
 }
 
+/* Auth Page Wrapper - Centers title and login/register boxes */
+.auth-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-xl);
+}
+
+/* Auth Title - Appears above login/register boxes */
+.auth-title {
+  text-align: center;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-2xl);
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  animation: fadeInUp 0.6s ease-out;
+}
+
 /* Login and Register Pages */
 .login-container,
 .register-container {
@@ -21,7 +45,7 @@
   padding: var(--space-2xl);
   border-radius: var(--radius-xl);
   max-width: 450px;
-  margin: 0 auto;
+  width: 100%;
   box-shadow: var(--shadow-xl);
   border: 1px solid rgba(255, 255, 255, 0.9);
   position: relative;
