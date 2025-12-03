@@ -172,25 +172,25 @@ const Calendar = ({ onNavigate, onLogout }) => {
     };
 
     // Convert time string (HH:mm) to percentage position (0-100)
-    // Maps waking hours (6am-11pm) to full vertical space for better visibility
+    // Maps waking hours (6am-11:59pm) to vertical space for better visibility
+    // Caps at 80% to prevent text cutoff at bottom
     const timeToPercentage = (timeStr) => {
         const [hours, minutes] = timeStr.split(':').map(Number);
         const totalMinutes = hours * 60 + minutes;
 
-        // Map 6am (360 min) to 0% and 11pm (1380 min) to 100%
-        // This gives better visual separation for typical daily events
-        const startOfDay = 6 * 60; // 6am
-        const endOfDay = 23 * 60;  // 11pm
+        // Map typical waking hours to use most of the space
+        const startOfDay = 6 * 60;   // 6am -> 5%
+        const endOfDay = 23 * 60 + 59; // 11:59pm -> 80%
 
         if (totalMinutes < startOfDay) {
-            // Early morning (midnight-6am) -> top 10%
-            return (totalMinutes / startOfDay) * 10;
-        } else if (totalMinutes > endOfDay) {
-            // Late night (11pm-midnight) -> bottom 10%
-            return 90 + ((totalMinutes - endOfDay) / (24 * 60 - endOfDay)) * 10;
+            // Early morning (midnight-6am) -> top 5%
+            return (totalMinutes / startOfDay) * 5;
+        } else if (totalMinutes >= endOfDay) {
+            // Late assignments (11:59pm) -> 80% (bottom but fully readable)
+            return 80;
         } else {
-            // Normal waking hours (6am-11pm) -> middle 80%
-            return 10 + ((totalMinutes - startOfDay) / (endOfDay - startOfDay)) * 80;
+            // Normal waking hours (6am-11:59pm) -> 5% to 80%
+            return 5 + ((totalMinutes - startOfDay) / (endOfDay - startOfDay)) * 75;
         }
     };
 
@@ -241,7 +241,7 @@ const Calendar = ({ onNavigate, onLogout }) => {
                                     className="calendar-event"
                                     style={{
                                         backgroundColor: event.color,
-                                        top: `${Math.min(topPosition, 92)}%` // Cap to prevent overflow
+                                        top: `${topPosition}%`
                                     }}
                                     title={`${event.time} - ${event.title}`}
                                     onClick={(e) => handleEventClick(e, event)}
