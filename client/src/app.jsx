@@ -137,7 +137,6 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Digital Classroom Platform</h1>
       {renderContent()}
     </div>
   );

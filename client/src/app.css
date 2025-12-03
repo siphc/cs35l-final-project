@@ -69,6 +69,11 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+.login-container h1 {
+  color: white;
+  margin-bottom: 5px;
+}
+
 .login-container h2,
 .register-container h2 {
   color: #FFD100;

@@ -44,6 +44,7 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
 
     return (
         <div className="login-container">
+            <h1>Digital Classroom Platform</h1>
             <h2>User Login</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email">Email:</label>
