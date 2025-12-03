@@ -1,72 +1,138 @@
-/*To hold the styling*/
+/* Sidebar Navigation */
 .app-sidebar {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100px; /* Width based on your original code */
-    background-color: #003366; /* UCLA Blue */
-    color: white;
-    padding-top: 10px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 100;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100px;
+  background: linear-gradient(180deg,
+    var(--color-primary-dark) 0%,
+    var(--color-primary) 50%,
+    var(--color-primary-light) 100%
+  );
+  color: var(--color-text-inverse);
+  padding-top: var(--space-md);
+  box-shadow: 4px 0 24px rgba(39, 116, 174, 0.3);
+  z-index: 100;
+  border-right: 1px solid rgba(255, 209, 0, 0.15);
 }
 
+/* Logo area */
+.ucla-logo {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  text-align: center;
+  padding: var(--space-md) 0 var(--space-xl) 0;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.05em;
+}
+
+/* Navigation list */
 .sidebar-nav-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    margin-top: 15px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: var(--space-lg);
 }
 
+/* Navigation items */
 .sidebar-nav-item {
-    display: block;
-    color: #BDBDBD; /* Lighter text for non-active links */
-    text-decoration: none;
-    padding: 15px 10px;
-    text-align: center;
-    transition: background-color 0.2s;
-    font-size: 0.85rem;
-    cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  padding: var(--space-lg) var(--space-md);
+  text-align: center;
+  transition: all var(--transition-base);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  border-left: 4px solid transparent;
+}
+
+.sidebar-nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--color-accent), var(--color-secondary-light));
+  transform: scaleY(0);
+  transition: transform var(--transition-base);
 }
 
 .sidebar-nav-item:hover {
-    background-color: #004080;
+  background: rgba(255, 209, 0, 0.15);
+  color: var(--color-text-inverse);
 }
 
-/* This handles the "Active" state (Yellow bar) */
+.sidebar-nav-item:hover::before {
+  transform: scaleY(1);
+}
+
+/* Active state with distinctive styling */
 .sidebar-nav-item.active {
-    background-color: white;
-    color: #003366;
-    font-weight: bold;
-    border-left: 5px solid #FFCD00; /* UCLA Yellow */
+  background: linear-gradient(90deg,
+    rgba(255, 209, 0, 0.25) 0%,
+    rgba(255, 209, 0, 0.08) 100%
+  );
+  color: var(--color-text-inverse);
+  font-weight: 700;
+  border-left-color: var(--color-accent);
 }
 
+.sidebar-nav-item.active::before {
+  transform: scaleY(1);
+}
+
+/* Icons */
 .sidebar-icon {
-    display: block;
-    font-size: 1.5rem;
-    margin-bottom: 5px;
+  display: block;
+  font-size: 1.8rem;
+  margin-bottom: var(--space-xs);
+  transition: transform var(--transition-base);
 }
 
-.ucla-logo {
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px 0 20px 0;
-    color: #FFCD00;
+.sidebar-nav-item:hover .sidebar-icon,
+.sidebar-nav-item.active .sidebar-icon {
+  transform: scale(1.1);
 }
 
+/* Logout section */
 .sidebar-logout {
-    margin-top: auto;
-    padding-bottom: 20px;
+  margin-top: auto;
+  padding-bottom: var(--space-xl);
 }
 
 .logout-button {
-    background-color: #8B0000; /* Dark red for logout */
+  background: linear-gradient(135deg,
+    var(--color-danger) 0%,
+    #B71C1C 100%
+  );
+  color: var(--color-text-inverse);
+  border: none;
+  width: 80%;
+  margin: 0 auto;
+  display: block;
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.85rem;
+  transition: all var(--transition-base);
 }
 
 .logout-button:hover {
-    background-color: #A52A2A; /* Lighter red on hover */
+  background: linear-gradient(135deg,
+    #C62828 0%,
+    var(--color-danger) 100%
+  );
+  box-shadow: 0 4px 12px rgba(214, 40, 40, 0.3);
+  transform: translateY(-2px);
 }

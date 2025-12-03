@@ -75,7 +75,8 @@ function Register({ onSwitchToLogin }) {
             {message && <p className="status-message">{message}</p>}
 
             <p>
-                Already have an account? 
+                <br></br>
+                Already have an account?&nbsp;
                 <a href="#" onClick={(e) => {e.preventDefault(); onSwitchToLogin();}}>
                     Log in here
                 </a>

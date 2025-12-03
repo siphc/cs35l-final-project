@@ -58,7 +58,8 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
             {message && <p className="status-message">{message}</p>}
 
             <p>
-                Don't have an account?
+                <br></br>
+                Don't have an account?&nbsp;
                 <a href="#" onClick={(e) => {e.preventDefault(); onSwitchToRegister();}}>
                     Register here
                 </a>
