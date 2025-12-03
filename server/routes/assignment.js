@@ -429,4 +429,36 @@ router.get('/grades/:classId', authMiddleware, async (req, res) => {
   }
 });
 
+/**
+ * @route   GET /api/assignment/my-assignments
+ * @desc    Get all assignments for classes the user is enrolled in
+ * @access  Private
+ */
+router.get('/my-assignments', authMiddleware, async (req, res) => {
+  try {
+    // Find all classes where the user is a member or creator
+    const classes = await Class.find({
+      $or: [{ members: req.user._id }, { creator: req.user._id }],
+    }).select('_id name');
+
+    const classIds = classes.map((c) => c._id);
+
+    // Find all assignments for these classes
+    const assignments = await Assignment.find({ class: { $in: classIds } })
+      .populate('class', 'name') // Populate class name
+      .sort({ dueDate: 1 });
+
+    res.json({
+      success: true,
+      data: assignments,
+    });
+  } catch (error) {
+    console.error('Get my assignments error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    });
+  }
+});
+
 module.exports = router;
