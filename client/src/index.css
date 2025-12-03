@@ -3,23 +3,23 @@
 
 /* CSS Variables for Design System */
 :root {
-  /* Color Palette - Educational theme with depth */
-  --color-primary: #0F4C5C;
-  --color-primary-light: #1A535C;
-  --color-primary-dark: #0A3847;
+  /* Color Palette - UCLA Theme */
+  --color-primary: #2774AE;        /* UCLA Blue */
+  --color-primary-light: #3A87C5;
+  --color-primary-dark: #1A5A8C;
 
-  --color-secondary: #E57F84;
-  --color-secondary-light: #F4A261;
-  --color-secondary-dark: #D16369;
+  --color-secondary: #FFB81C;      /* UCLA Gold */
+  --color-secondary-light: #FFD100;
+  --color-secondary-dark: #FFA500;
 
-  --color-accent: #4ECDC4;
-  --color-accent-light: #6EE7DD;
-  --color-accent-dark: #3AAFA9;
+  --color-accent: #FFD100;         /* UCLA Gold (Bright) */
+  --color-accent-light: #FFE44D;
+  --color-accent-dark: #FFB81C;
 
   --color-success: #52B788;
-  --color-warning: #F77F00;
+  --color-warning: #FFB81C;        /* UCLA Gold for warnings */
   --color-danger: #D62828;
-  --color-info: #4EA8DE;
+  --color-info: #2774AE;           /* UCLA Blue for info */
 
   /* Backgrounds - Warm, inviting tones */
   --color-bg-base: #FAF8F5;
@@ -226,7 +226,7 @@ textarea:focus,
 select:focus {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.1);
+  box-shadow: 0 0 0 4px rgba(255, 209, 0, 0.1);
   transform: translateY(-1px);
 }
 

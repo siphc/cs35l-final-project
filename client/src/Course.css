@@ -26,8 +26,8 @@
 
 .course-nav-link:hover {
   background: linear-gradient(135deg,
-    rgba(78, 205, 196, 0.05) 0%,
-    rgba(78, 205, 196, 0.02) 100%
+    rgba(255, 209, 0, 0.05) 0%,
+    rgba(255, 209, 0, 0.02) 100%
   );
   color: var(--color-primary);
 }
@@ -98,8 +98,8 @@
 
 .member-card.instructor {
   background: linear-gradient(135deg,
-    rgba(15, 76, 92, 0.05) 0%,
-    rgba(78, 205, 196, 0.03) 100%
+    rgba(39, 116, 174, 0.05) 0%,
+    rgba(255, 209, 0, 0.03) 100%
   );
   border-color: var(--color-primary);
   border-width: 2px;
@@ -175,8 +175,8 @@
 
 .grade-cell:hover {
   background: linear-gradient(135deg,
-    rgba(78, 205, 196, 0.1) 0%,
-    rgba(78, 205, 196, 0.05) 100%
+    rgba(255, 209, 0, 0.1) 0%,
+    rgba(255, 209, 0, 0.05) 100%
   );
   border-color: var(--color-accent);
   transform: translateY(-1px);
@@ -193,7 +193,7 @@
 
 .grade-input:focus {
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 209, 0, 0.1);
 }
 
 /* Assignment and Grade Tables */
@@ -231,8 +231,8 @@ tbody tr:nth-child(even) {
 
 tbody tr:hover {
   background: linear-gradient(90deg,
-    rgba(78, 205, 196, 0.08) 0%,
-    rgba(78, 205, 196, 0.02) 100%
+    rgba(255, 209, 0, 0.08) 0%,
+    rgba(255, 209, 0, 0.02) 100%
   );
   transform: translateX(2px);
 }

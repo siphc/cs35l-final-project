@@ -14,9 +14,9 @@
   );
   color: var(--color-text-inverse);
   padding-top: var(--space-md);
-  box-shadow: 4px 0 24px rgba(15, 76, 92, 0.2);
+  box-shadow: 4px 0 24px rgba(39, 116, 174, 0.3);
   z-index: 100;
-  border-right: 1px solid rgba(78, 205, 196, 0.1);
+  border-right: 1px solid rgba(255, 209, 0, 0.15);
 }
 
 /* Logo area */
@@ -71,7 +71,7 @@
 }
 
 .sidebar-nav-item:hover {
-  background: rgba(78, 205, 196, 0.1);
+  background: rgba(255, 209, 0, 0.15);
   color: var(--color-text-inverse);
 }
 
@@ -82,8 +82,8 @@
 /* Active state with distinctive styling */
 .sidebar-nav-item.active {
   background: linear-gradient(90deg,
-    rgba(78, 205, 196, 0.2) 0%,
-    rgba(78, 205, 196, 0.05) 100%
+    rgba(255, 209, 0, 0.25) 0%,
+    rgba(255, 209, 0, 0.08) 100%
   );
   color: var(--color-text-inverse);
   font-weight: 700;
