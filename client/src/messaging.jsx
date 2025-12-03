@@ -3,7 +3,7 @@ import Sidebar from './sidebar.jsx';
 import './messaging.css';
 import './styles.css';
 
-const Messaging = ({ user, onNavigate, onLogout }) => {
+const Messaging = ({ onNavigate, onLogout }) => {
   // Fake Contacts Data
   const contacts = [
     { id: 1, name: "Instructor T. H.", role: "CS 35L Professor" },
@@ -13,44 +13,12 @@ const Messaging = ({ user, onNavigate, onLogout }) => {
 
   // Fake Conversation Data
   const [selectedContact, setSelectedContact] = useState(contacts[0]);
-  const [showAccountPanel, setShowAccountPanel] = useState(false);
-
-  const handleAccountClick = () => {
-    setShowAccountPanel(true);
-  };
-
-  const handleCloseAccountPanel = () => {
-    setShowAccountPanel(false);
-  };
-
-  const handleLogout = () => {
-    setShowAccountPanel(false);
-    onLogout();
-  };
 
   return (
     <div className="body-with-right-side-primary-nav-expanded full-width-context-user_19897">
 
       {/* Sidebar Navigation */}
-      <Sidebar
-        page={showAccountPanel ? "account" : "messaging"}
-        onNavigate={(view) => {
-          if (view === 'account') {
-            handleAccountClick();
-          } else {
-            setShowAccountPanel(false);
-            onNavigate(view);
-          }
-        }}
-      />
-
-      {showAccountPanel && (
-        <AccountPanel
-          user={user}
-          onClose={handleCloseAccountPanel}
-          onLogout={handleLogout}
-        />
-      )}
+      <Sidebar page="messaging" onNavigate={onNavigate} onLogout={onLogout} />
 
       <div id="main-content-wrapper">
         <header className="page-header">

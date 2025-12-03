@@ -1,24 +1,24 @@
 import React from 'react';
 import './sidebar.css'; 
 
-// We accept "onNavigate"
-const Sidebar = ({ page, onNavigate }) => {
+// We accept "onNavigate" and "onLogout"
+const Sidebar = ({ page, onNavigate, onLogout }) => {
   return (
     <div className="app-sidebar">
       <div className="ucla-logo">UCLA</div>
-      
+
       <nav className="sidebar-nav-list">
-        
+
         {/* Account Button */}
-        <div 
-            onClick={() => onNavigate('account')} 
+        <div
+            onClick={() => onNavigate('account')}
             className={`sidebar-nav-item ${page === 'account' ? 'active' : ''}`}
         >
             <span className="sidebar-icon">👤</span> Account
         </div>
 
         {/* Dashboard Button */}
-        <div 
+        <div
             onClick={() => onNavigate('dashboard')}
             className={`sidebar-nav-item ${page === 'dashboard' ? 'active' : ''}`}
         >
@@ -26,7 +26,7 @@ const Sidebar = ({ page, onNavigate }) => {
         </div>
 
         {/* Calendar Button - UPDATE THIS */}
-        <div 
+        <div
             onClick={() => onNavigate('calendar')}
             className={`sidebar-nav-item ${page === 'calendar' ? 'active' : ''}`}
         >
@@ -34,7 +34,7 @@ const Sidebar = ({ page, onNavigate }) => {
         </div>
 
         {/* Messaging Button (FIXED) */}
-        <div 
+        <div
             onClick={() => onNavigate('messaging')}
             className={`sidebar-nav-item ${page === 'messaging' ? 'active' : ''}`}
         >
@@ -42,6 +42,16 @@ const Sidebar = ({ page, onNavigate }) => {
         </div>
 
       </nav>
+
+      {/* Logout Button at the bottom */}
+      <div className="sidebar-logout">
+        <div
+            onClick={onLogout}
+            className="sidebar-nav-item logout-button"
+        >
+            <span className="sidebar-icon">🚪</span> Logout
+        </div>
+      </div>
     </div>
   );
 };
