@@ -1,0 +1,62 @@
+.people-tab-container {
+  padding: 20px;
+}
+
+.member-card {
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: white;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+
+.member-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.member-card.instructor {
+  border-left: 4px solid #007bff;
+  background: #f8f9fa;
+}
+
+.member-card.student {
+  border-left: 4px solid #28a745;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.role-badge.instructor {
+  background: #007bff;
+  color: white;
+}
+
+.role-badge.student {
+  background: #28a745;
+  color: white;
+}
+
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.email {
+  word-break: break-word;
+}
+
+@media (max-width: 768px) {
+  .members-grid {
+    grid-template-columns: 1fr;
+  }
+}

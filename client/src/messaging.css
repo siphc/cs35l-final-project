@@ -139,6 +139,10 @@
   border-bottom-left-radius: var(--radius-sm);
 }
 
+.message-received .message-time {
+    color: #666;
+}
+
 .message-sent {
   background: linear-gradient(135deg,
     var(--color-primary) 0%,
@@ -148,6 +152,10 @@
   align-self: flex-end;
   margin-left: auto;
   border-bottom-right-radius: var(--radius-sm);
+}
+
+.message-sent .message-time {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .chat-input-area {

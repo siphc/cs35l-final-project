@@ -1,102 +1,132 @@
-# Authentication Backend API
+# Authentication API Documentation
 
-A Node.js/Express REST API for user authentication with MongoDB.
+A REST API for user authentication and session management.
 
-## API Endpoints
+## Base URL
 
-Base URL: `http://localhost:3001`
+```
+http://localhost:3001/api/auth
+```
 
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user (returns sessionId)
-- `POST /api/auth/logout` - Logout user (requires sessionId)
-- `GET /api/auth/verify` - Verify session (requires sessionId in header or query)
-- `GET /api/auth/health` - Health check
+## Endpoints
 
-## Frontend Integration
+### Register
+**`POST /api/auth/register`**
 
-### Using Fetch API
+Create a new user account.
 
-```javascript
-const API_URL = 'http://localhost:3001/api/auth';
+**Request:**
+```json
+{
+  "email": "user@example.com",
+  "password": "securePassword123"
+}
+```
 
-// Login
-async function login(email, password) {
-  const response = await fetch(`${API_URL}/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
-  });
-  const data = await response.json();
-  if (data.success) {
-    localStorage.setItem('sessionId', data.data.sessionId);
+**Response (201):**
+```json
+{
+  "success": true,
+  "message": "User registered successfully",
+  "data": {
+    "id": "user_id_here",
+    "email": "user@example.com",
+    "createdAt": "2025-12-03T10:30:00.000Z"
   }
-  return data;
-}
-
-// Verify session
-async function verifySession() {
-  const sessionId = localStorage.getItem('sessionId');
-  const response = await fetch(`${API_URL}/verify?sessionId=${sessionId}`);
-  return response.json();
-}
-
-// Logout
-async function logout() {
-  const sessionId = localStorage.getItem('sessionId');
-  await fetch(`${API_URL}/logout`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ sessionId })
-  });
-  localStorage.removeItem('sessionId');
 }
 ```
 
-### Using Axios
+---
 
-```javascript
-import axios from 'axios';
+### Login
+**`POST /api/auth/login`**
 
-const api = axios.create({
-  baseURL: 'http://localhost:3001/api/auth',
-  headers: { 'Content-Type': 'application/json' }
-});
+Authenticate a user and get a session.
 
-// Session management
-const setSession = (sessionId) => {
-  localStorage.setItem('sessionId', sessionId);
-  api.defaults.headers.common['x-session-id'] = sessionId;
-};
-
-const clearSession = () => {
-  localStorage.removeItem('sessionId');
-  delete api.defaults.headers.common['x-session-id'];
-};
-
-// Login
-async function login(email, password) {
-  const response = await api.post('/login', { email, password });
-  setSession(response.data.data.sessionId);
-  return response.data;
-}
-
-// Verify
-async function verifySession() {
-  const sessionId = localStorage.getItem('sessionId');
-  const response = await api.get('/verify', { params: { sessionId } });
-  return response.data;
-}
-
-// Logout
-async function logout() {
-  const sessionId = localStorage.getItem('sessionId');
-  if (sessionId) await api.post('/logout', { sessionId });
-  clearSession();
+**Request:**
+```json
+{
+  "email": "user@example.com",
+  "password": "securePassword123"
 }
 ```
 
-## Notes
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "sessionId": "unique_session_id_here",
+    "user": {
+      "id": "user_id_here",
+      "email": "user@example.com"
+    }
+  }
+}
+```
 
-- Sessions expire after 24 hours
-- Store `sessionId` from login response in localStorage
-- Include `sessionId` in requests via `x-session-id` header or `sessionId` query parameter
+**Save the `sessionId`** - you'll need it for authenticated requests.
+
+---
+
+### Logout
+**`POST /api/auth/logout`**
+
+End a user session.
+
+**Request:**
+```json
+{
+  "sessionId": "your_session_id_here"
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Logout successful"
+}
+```
+
+---
+
+### Verify Session
+**`GET /api/auth/verify`**
+
+Check if a session is valid.
+
+**Query Parameter or Header:**
+- Via header: `x-session-id: your_session_id_here`
+- Via query: `?sessionId=your_session_id_here`
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "user_id_here",
+      "email": "user@example.com"
+    },
+    "expiresAt": "2025-12-04T10:30:00.000Z"
+  }
+}
+```
+
+---
+
+### Health Check
+**`GET /api/auth/health`**
+
+Check if the API is running.
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Auth API is running",
+  "timestamp": "2025-12-03T10:30:00.000Z"
+}
+```
