@@ -25,12 +25,24 @@ To test the web application, run:
 ```
 npm run dev
 ```
+
+When you're ready to bring the system live, run:
+```
+npm start
+```
+
 ### Backend
 Navigate to the `server/` directory, and run:
 ```
 npm install
 ```
+
 To run the server, run:
 ```
-node app.js
+npm start
+```
+
+To run unit tests, run:
+```
+npm test
 ```
