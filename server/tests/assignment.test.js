@@ -19,8 +19,8 @@ const app = require('../app');
 const User = require('../models/user');
 const Session = require('../models/session');
 const Class = require('../models/class');
-const Assignment = require('../models/Assignment');
-const Grade = require('../models/Grade');
+const Assignment = require('../models/assignment');
+const Grade = require('../models/grade');
 
 describe('Assignment API', () => {
   let server;

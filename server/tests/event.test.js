@@ -2,9 +2,9 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../app');
 const User = require('../models/user');
-const Event = require('../models/Event');
+const Event = require('../models/event');
 const Class = require('../models/class');
-const Assignment = require('../models/Assignment');
+const Assignment = require('../models/assignment');
 
 describe('Calendar Feature Tests', () => {
     let token;

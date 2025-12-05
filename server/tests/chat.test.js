@@ -19,8 +19,8 @@ const app = require('../app');
 const User = require('../models/user');
 const Session = require('../models/session');
 const Class = require('../models/class');
-const Chat = require('../models/Chat');
-const Message = require('../models/Message');
+const Chat = require('../models/chat');
+const Message = require('../models/message');
 
 describe('Chat API', () => {
   let server;
