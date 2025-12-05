@@ -134,12 +134,21 @@ const Calendar = ({ onNavigate, onLogout }) => {
             if (token) headers['x-auth-token'] = token;
             if (sessionId) headers['x-session-id'] = sessionId;
 
+            const [hours, minutes] = newEvent.time.split(':').map(Number);
+            const eventDateTime = new Date(
+                selectedDate.getFullYear(),
+                selectedDate.getMonth(),
+                selectedDate.getDate(),
+                hours,
+                minutes
+            );
+
             const res = await fetch('http://localhost:3001/api/event', {
                 method: 'POST',
                 headers,
                 body: JSON.stringify({
                     title: newEvent.title,
-                    date: selectedDate,
+                    date: eventDateTime,
                     time: newEvent.time,
                     color: newEvent.color
                 })
@@ -227,6 +236,14 @@ const Calendar = ({ onNavigate, onLogout }) => {
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
+
+    const formatDateForInput = (date) => {
+        // Avoid toISOString to prevent UTC shifting that moves the date back a day
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
     const renderCalendarCells = () => {
         const cells = [];
@@ -334,8 +351,11 @@ const Calendar = ({ onNavigate, onLogout }) => {
                                 <label>Date</label>
                                 <input
                                     type="date"
-                                    value={selectedDate?.toISOString().split('T')[0]}
-                                    onChange={(e) => setSelectedDate(new Date(e.target.value))}
+                                    value={selectedDate ? formatDateForInput(selectedDate) : ''}
+                                    onChange={(e) => {
+                                        const [year, month, day] = e.target.value.split('-').map(Number);
+                                        setSelectedDate(new Date(year, month - 1, day));
+                                    }}
                                 />
                             </div>
                             <div className="form-group">
