@@ -5,6 +5,14 @@ import './styles.css';
 
 const API_BASE_URL = 'http://localhost:3001';
 
+/* Some of the following code was modified with Claude Code AI 4.5 Sonnet using the following prompt:
+  Can you implement the messaging feature within this course website web app. Make there be direct and group chats for users within a class. Creating groups or direct chats should be from the groups tab within a class should be
+  able to select a user and add them to an existing chat or create a new chat with them. Group chats can be created by selecting multiple users from the page. Make sure to check for duplicate chats both when adding users to
+  existing chat and creating a new chat. Make sure to use the existing api endpoints for creating chats, adding members to existing chats, and fetching chats for the class. Also add the ability to delete chats. Also update the existing shell messaging frontend to also interact with the backend for messaging.
+  Ask questions if you need more info. Plan first then I will review and ask you to proceed.
+  */
+
+
 const Messaging = ({ onNavigate, onLogout }) => {
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);

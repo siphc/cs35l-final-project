@@ -6,6 +6,22 @@ const Class = require('../models/class');
 const authMiddleware = require('../middleware/authMiddleware');
 const classRoutes = require('./class');
 
+/*These routes and the helper functions imported from classRoutes are pair programmed with claude beginning with this prompt and then manually reviewed and edited:
+Can you plan how to resolve this github issue
+  Backend has a way to check if a user is an instructor or student (we do this by matching userIDs). We can open this interface specifically such that it's easier to work with.
+
+  With that in mind:
+
+  Instructors should be able to create assignments
+  Students should be able to see said assignments
+  Instructors should be able to grade said assignments
+  Students should be able to see their grades for said assignments
+  Start with a plan and then ask me to proceed with implementation. Ask questions if you need. Also make sure the grade and assignemnts use the existing database schemas in server/models/Assignment.js and server/models/Grade.js
+  for now just work on backend routes do not implement frontend. 
+
+  Then asked about helper functions and I asked for them to be implemented in the class.js route file. Then I asked to proceed with the assignment and grade routes using those helper functions.
+*/
+
 // Import class authorization helpers
 const { isInstructor, hasClassAccess, isMember } = classRoutes;
 
