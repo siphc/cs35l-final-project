@@ -11,7 +11,7 @@ We have a GitHub Project set up to track our progress throughout the course of t
 # DISCLAIMER
 
 ## GenAI Usage
-Claude Code, an agentic LLM-based coding tool, was used in the development of the frontend, especially with regards to its aesthetics. Prompts used, as well as a list of files that were changed, are listed below.
+Claude Code, an agentic LLM-based coding tool, was used in the development of the frontend, especially with regards to its aesthetics. Prompts used, as well as a list of files that were changed, are listed below. The changes can be seen in commit 9e1e565, "fix: UI improvements (#23)". Note that this commit contains both human-written fixes (such as in login.jsx and register.jsx) and human-written features (such as in calendar.jsx). The influence of LLMs is mostly limited to CSS.
 ```
 1. Analyze this repository and create a comprehensive CLAUDE.md file that explains the codebase structure, development workflows, and key conventions for AI assistants to follow. If one already exists, update it with the most recent state
 
