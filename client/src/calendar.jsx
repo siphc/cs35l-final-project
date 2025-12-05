@@ -18,6 +18,17 @@ const Calendar = ({ onNavigate, onLogout }) => {
     // Colors for the picker
     const colors = ['#007bff', '#28a745', '#dc3545', '#ffc107', '#17a2b8', '#6610f2'];
 
+
+
+    /* Some of the following code was modified with Gemini 3 Pro in Antigravity using the following prompt:
+    Implement a calandar feature:
+    Add an event on a specific date with a specific name & color (hex picker with visual modal for color selection from hue grid)
+    Delete an event
+    Get assignments from all classes the user is enrolled in and populate them on the calandar. 
+    Make sure to use the existing api endpoints to get the assignments for the user and to delete and add elements.
+    Show more details about the event when clicking on it in a modal popup.
+    Make sure to ask questions if you need more info. Plan first then I will review and ask you to proceed.
+    */
     useEffect(() => {
         fetchEventsAndAssignments();
     }, []);
@@ -170,6 +181,14 @@ const Calendar = ({ onNavigate, onLogout }) => {
             console.error('Error deleting event:', error);
         }
     };
+
+    /* A lot of the code in below and above in this file was modified by Claude AI with the following prompt:
+    can you add times to the events in the calandar and also change how you create an event there should be a button to create an event and clicking any blank space in the calandar should do nothing but clicking an event in the
+    calandar should expand and provide more info about the event. In this modal that pops up when clicking an even there should be a delete button for all events except assignments from a students perspective. The events should
+    be moved vertically within the box for their day depending on the time of day lower for later in the day higher for earlier in the day. Also if there are more than 3 events in a day just add a ... that can be clicked to see
+    all events in that day so that there is no overflow to other boxes on the calandar. Make sure to priorize visibility of events when distributing them vertically within the box so that no event text is cutoff at the bottom. 
+    Ask questions if you need more info. Plan first then I will review and ask you to proceed.
+    */
 
     // Convert time string (HH:mm) to percentage position (0-100)
     // Maps waking hours (6am-11:59pm) to vertical space for better visibility

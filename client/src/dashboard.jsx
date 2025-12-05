@@ -4,6 +4,9 @@ import './styles.css';
 
 const API_BASE_URL = 'http://localhost:3001';
 
+
+
+
 const Dashboard = ({ onNavigate, onLogout, onSelectClass }) => {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -131,6 +134,12 @@ const Dashboard = ({ onNavigate, onLogout, onSelectClass }) => {
     setClassCode('');
   };
 
+  /* Claude Code prompt modified some of below code (also modified existing code above):
+can you help modify the dashboard page to remove the current frontend prepopulated classes  use the existing class api endpoint my-classes to display only classes the use is actually a part of. Also add a join and create
+class button; the join class button should then prompt for a class code to join a class, the create class button should ask for the information from the class database schema in server/models/class.js and then once the user
+presses "done" they should see a class code they can use for students to join the class. Ask Questions if you need. Plan first then I will review and ask you to proceed. 
+*/
+
   return (
     <div className="body-with-right-side-primary-nav-expanded full-width-context-user_19897">
 
@@ -199,7 +208,7 @@ const Dashboard = ({ onNavigate, onLogout, onSelectClass }) => {
             )}
         </div>
       </div>
-
+      
       {/* Join Class Modal */}
       {showJoinModal && (
         <div className="modal-overlay" onClick={closeJoinModal}>
