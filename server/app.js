@@ -8,6 +8,7 @@ const profileRoutes = require('./routes/profile');
 const assignmentRoutes = require('./routes/assignment');
 const eventRoutes = require('./routes/event');
 const chatRoutes = require('./routes/chat');
+const testRoutes = require('./routes/test')
 
 const app = express();
 
@@ -33,7 +34,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/assignment', assignmentRoutes);
 app.use('/api/event', eventRoutes);
 app.use('/api/chat', chatRoutes);
-
+app.use('/api/test', testRoutes);
 
 // 404 Handler
 app.use((req, res) => {
