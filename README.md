@@ -1,3 +1,9 @@
+# Welcome!
+This is our repo for our CS35L final project (Group 45). To start off:
+- Read through this README (setup steps are below)
+- Read through [client/README.md](client/README.md) for end-to-end testing information
+- Read through [server/docs/README.md](server/docs/README.md) for information on how to run and test the backend
+
 # READ ME BEFORE YOU PUSH!!!
 We have a GitHub Project set up to track our progress throughout the course of this project. Please utilize it by doing the following:
 - **Do NOT push to `main`!!!**
@@ -7,6 +13,61 @@ We have a GitHub Project set up to track our progress throughout the course of t
   - Specify the [Issue](https://github.com/siphc/cs35l-final-project/issues) you are addressing with your PR. Your PR should more or less resolve the entire issue.
 - Ask a team member to review your PR (which should include testing) and **squash-merge** the PR. This combines all the relevant commits into one commit which takes the name of the PR, so give your PRs a meaningful name. We do this to avoid cluttering.
 - The Project automation is set up such that if you merge a PR that closes an Issue affiliated with a Project Item, the Item is automatically marked as done.
+
+# Setup steps
+Clone the directory:
+```
+git clone git@github.com:siphc/cs35l-final-project.git
+```
+### Frontend
+After cloning the directory, run:
+```
+cd cs35l-final-project/client/
+npm install
+```
+To install the Node.js package dependencies.
+
+To test the web application, run:
+```
+npm run dev
+```
+
+When you're ready to bring the system live, run:
+```
+npm start
+```
+
+### Backend
+Navigate to the `server/` directory, and run:
+```
+npm install
+cp .env.example .env
+```
+
+To run the server, run:
+```
+npm start
+```
+
+To run unit tests, run:
+```
+npm test
+```
+
+# Diagrams
+The first one is an Entity Relationship Diagram describing the relationship between users, classes, and assignments. They form a triangle: users can create or enroll in classes, classes contain assignments, and assignments can be assigned by users.
+
+We do this because it's important for the database to know all this information. By organizing users, classes, and assignments in a triangle, we allow the database to have complete data over who created an assignment where, to whom, etc.
+
+![Entity Relationship Diagram](erd.png)
+
+The second one is a Sequence Diagram describing the foundations of our messaging model. Every message belongs in a chat, and every message is stored in the database. Users can create chats, message in them, and fetch the latest messages at will.
+
+This diagram really demonstrates our understanding of separation of principles. Clients only have to create API calls (aside from rendering, the only thing they have to worry about is perhaps managing chatId, but that is also handled by an API endpoint GET /api/chat/list, which is not pictured). Servers are stateless i.e. they do not store any data, and each request is authenticated with an x-session-id via the middleware.
+
+Finally, one of the key problems in distributed systems is **ordering of messages**. We solve this by using something comically simple: the server authoritatively sorts the messages by their createdAt field. This way, we bypass the issue of distributed messaging entirely by utilizing a Client-Server Architecture.
+
+![Sequence Diagram](seq.png)
 
 # DISCLAIMER
 
@@ -63,43 +124,3 @@ Changes made:
 - **CLAUDE.md** (I asked it to generate its own, per prompt 1)
 - Every **\*.css** file (for design purposes)
 - **client/src/app.jsx** (added conditional rendering for an element per prompt 4 & 5)
-
-# Setup steps
-Clone the directory:
-```
-git clone git@github.com:siphc/cs35l-final-project.git
-```
-### Frontend
-After cloning the directory, run:
-```
-cd cs35l-final-project/client/
-npm install
-```
-To install the Node.js package dependencies.
-
-To test the web application, run:
-```
-npm run dev
-```
-
-When you're ready to bring the system live, run:
-```
-npm start
-```
-
-### Backend
-Navigate to the `server/` directory, and run:
-```
-npm install
-cp .env.example .env
-```
-
-To run the server, run:
-```
-npm start
-```
-
-To run unit tests, run:
-```
-npm test
-```

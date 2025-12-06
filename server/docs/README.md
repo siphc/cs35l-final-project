@@ -11,12 +11,12 @@
    - Copy `.env.example` to `.env`
    - Update `MONGODB_URI` with your MongoDB connection string
    - Do NOT change `MONGODB_TEST_URI`! The testing URI should stay on localhost!!!
-   - Adjust `PORT` if needed (default: 3001)
+   - Adjust `PORT` if needed (default: 3001). Note that if you decide to change this please change the ports in frontend as well, a single search & replace would do.
 
 3. Start the server:
    ```bash
    npm run dev    # Development mode
-   npm start      # Production mode
+   npm start [&]  # Production mode
    npm test [-- --detectOpenHandles]   # Testing mode
    ```
    If you received a MongoDB error (this most commonly happens in `npm test`, as the database is local), follow the instructions [on the MongoDB website](https://www.mongodb.com/docs/manual/administration/install-community) to start the `mongod` process.
@@ -27,9 +27,10 @@
 /
 >  /config        Connection w/ MongoDB w/ Mongoose
 >  /docs          Documentation
+>  /middleware    Authentication Middleware
 >  /models        Mongoose Schemas
 >  /routes        API Endpoint definitions
->  /tests         Tests to be run with jest
+>  /tests         Tests to be run with Jest
 app.js        Core server logic
 server.js     Starting the server
 ```
