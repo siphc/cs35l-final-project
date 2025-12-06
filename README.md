@@ -54,6 +54,9 @@ To run unit tests, run:
 npm test
 ```
 
+# Diagrams
+![Entity Relationship Diagram](erd.png)
+![Sequence Diagram](seq.png)
 # DISCLAIMER
 
 ## GenAI Usage
