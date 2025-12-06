@@ -55,8 +55,20 @@ npm test
 ```
 
 # Diagrams
+The first one is an Entity Relationship Diagram describing the relationship between users, classes, and assignments. They form a triangle: users can create or enroll in classes, classes contain assignments, and assignments can be assigned by users.
+
+We do this because it's important for the database to know all this information. By organizing users, classes, and assignments in a triangle, we allow the database to have complete data over who created an assignment where, to whom, etc.
+
 ![Entity Relationship Diagram](erd.png)
+
+The second one is a Sequence Diagram describing the foundations of our messaging model. Every message belongs in a chat, and every message is stored in the database. Users can create chats, message in them, and fetch the latest messages at will.
+
+This diagram really demonstrates our understanding of separation of principles. Clients only have to create API calls (aside from rendering, the only thing they have to worry about is perhaps managing chatId, but that is also handled by an API endpoint GET /api/chat/list, which is not pictured). Servers are stateless i.e. they do not store any data, and each request is authenticated with an x-session-id via the middleware.
+
+Finally, one of the key problems in distributed systems is **ordering of messages**. We solve this by using something comically simple: the server authoritatively sorts the messages by their createdAt field. This way, we bypass the issue of distributed messaging entirely by utilizing a Client-Server Architecture.
+
 ![Sequence Diagram](seq.png)
+
 # DISCLAIMER
 
 ## GenAI Usage
