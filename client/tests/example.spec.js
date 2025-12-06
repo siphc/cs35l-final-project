@@ -73,6 +73,18 @@ test('Authentication', async ({ page }) => {
     - text: 🚪 Logout
     `);
   
+  await page.getByText('🚪 Logout').click();
+});
+
+test('UI Functionality', async ({ page }) => {
+  // Log back in first
+  await page.goto('http://localhost:5173/');
+  await page.getByRole('textbox', { name: 'Email:' }).click();
+  await page.getByRole('textbox', { name: 'Email:' }).fill('example@gmail.com');
+  await page.getByRole('textbox', { name: 'Email:' }).press('Tab');
+  await page.getByRole('textbox', { name: 'Password:' }).fill('Asdf_1234');
+  await page.getByRole('button', { name: 'Log In' }).click({ timeout: 10000 });
+
   // Expect account page to display properly before & after name change
   await page.getByText('👤 Account').click();
   await expect(page.locator('#main-content-wrapper')).toMatchAriaSnapshot(`
@@ -96,7 +108,7 @@ test('Authentication', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Display Name:' }).fill('Test Instructor');
   await page.getByRole('button', { name: 'Save' }).click();
   await page.goto('http://localhost:5173/');
-  await page.getByText('👤 Account').click();
+  await page.getByText('👤 Account').click({ timeout: 10000 });
   await expect(page.locator('#main-content-wrapper')).toMatchAriaSnapshot(`
     - banner:
       - heading "User Account Settings" [level=1]
