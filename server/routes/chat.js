@@ -6,6 +6,12 @@ const User = require('../models/user');
 const Class = require('../models/class');
 const authMiddleware = require('../middleware/authMiddleware');
 
+/* Claude code assisted with this file as well as other files related to messaging features but code was reviewed and edited by me after this prompt
+Can you implement the messaging feature within this course website web app. Make there be direct and group chats for users within a class. Creating groups or direct chats should be from the groups tab within a class should be
+able to select a user and add them to an existing chat or create a new chat with them. Group chats can be created by selecting multiple users from the page. Make sure to check for duplicate chats both when adding users to
+existing chat and creating a new chat. Please ask questions if needed for clarification. 
+*/
+
 // Helper function to check if two arrays contain the same elements (order doesn't matter)
 const arraysHaveSameElements = (arr1, arr2) => {
   if (arr1.length !== arr2.length) return false;
