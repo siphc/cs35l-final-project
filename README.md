@@ -1,3 +1,9 @@
+# Welcome!
+This is our repo for our CS35L final project (Group 45). To start off:
+- Read through this README (setup steps are below)
+- Read through [client/README.md](client/README.md) for end-to-end testing information
+- Read through [server/docs/README.md](server/docs/README.md) for information on how to run and test the backend
+
 # READ ME BEFORE YOU PUSH!!!
 We have a GitHub Project set up to track our progress throughout the course of this project. Please utilize it by doing the following:
 - **Do NOT push to `main`!!!**
@@ -7,6 +13,46 @@ We have a GitHub Project set up to track our progress throughout the course of t
   - Specify the [Issue](https://github.com/siphc/cs35l-final-project/issues) you are addressing with your PR. Your PR should more or less resolve the entire issue.
 - Ask a team member to review your PR (which should include testing) and **squash-merge** the PR. This combines all the relevant commits into one commit which takes the name of the PR, so give your PRs a meaningful name. We do this to avoid cluttering.
 - The Project automation is set up such that if you merge a PR that closes an Issue affiliated with a Project Item, the Item is automatically marked as done.
+
+# Setup steps
+Clone the directory:
+```
+git clone git@github.com:siphc/cs35l-final-project.git
+```
+### Frontend
+After cloning the directory, run:
+```
+cd cs35l-final-project/client/
+npm install
+```
+To install the Node.js package dependencies.
+
+To test the web application, run:
+```
+npm run dev
+```
+
+When you're ready to bring the system live, run:
+```
+npm start
+```
+
+### Backend
+Navigate to the `server/` directory, and run:
+```
+npm install
+cp .env.example .env
+```
+
+To run the server, run:
+```
+npm start
+```
+
+To run unit tests, run:
+```
+npm test
+```
 
 # DISCLAIMER
 
@@ -63,43 +109,3 @@ Changes made:
 - **CLAUDE.md** (I asked it to generate its own, per prompt 1)
 - Every **\*.css** file (for design purposes)
 - **client/src/app.jsx** (added conditional rendering for an element per prompt 4 & 5)
-
-# Setup steps
-Clone the directory:
-```
-git clone git@github.com:siphc/cs35l-final-project.git
-```
-### Frontend
-After cloning the directory, run:
-```
-cd cs35l-final-project/client/
-npm install
-```
-To install the Node.js package dependencies.
-
-To test the web application, run:
-```
-npm run dev
-```
-
-When you're ready to bring the system live, run:
-```
-npm start
-```
-
-### Backend
-Navigate to the `server/` directory, and run:
-```
-npm install
-cp .env.example .env
-```
-
-To run the server, run:
-```
-npm start
-```
-
-To run unit tests, run:
-```
-npm test
-```

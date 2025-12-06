@@ -8,7 +8,7 @@ test.afterAll(async ({ request }) => {
   await request.post('http://localhost:3001/api/test/reset-db');
 });
 
-test('test', async ({ page }) => {
+test('Authentication', async ({ page }) => {
   // Snapshot upon init should be login
   await page.goto('http://localhost:5173/');
   await expect(page.locator('#root')).toMatchAriaSnapshot(`
@@ -278,4 +278,6 @@ test('test', async ({ page }) => {
   await page.getByText('💬 Messaging').click();
   await page.getByText('Test InstructorTC 35L - End-').click();
   await expect(page.locator('#main-content-wrapper')).toMatchAriaSnapshot(`- text: Test Instructor Hi! Just now`);
+
+  await page.getByText('🚪 Logout').click();
 });
